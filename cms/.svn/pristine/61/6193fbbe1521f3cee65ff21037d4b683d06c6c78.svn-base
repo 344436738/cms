@@ -1,0 +1,106 @@
+<link href="media/css/select2_metro.css" rel="stylesheet" type="text/css"/>
+<script src="media/js/select2.min.js" type="text/javascript"></script>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal"
+            aria-hidden="true"></button>
+    <h4 class="modal-title">用户站点权限</h4>
+</div>
+<div class="modal-body">
+    <form id="setting_site_form" class="form-horizontal">
+        <div class="control-group">
+            <label class="control-label">选择站点</label>
+            <div class="controls">
+                   <select id="siteId" name="siteIds" multiple="true">
+                       <#if siteEList?exists && siteEList?size gt 0>
+                           <#list siteEList as site>
+                               <option value="${site.id}">${site.siteName}</option>
+                           </#list>
+                           <#else>
+                               <option value="">---请先添加站点---</option>
+                       </#if>
+                   </select>
+
+                <input class="btn btn-primary" type="button" onclick="cleanSelectText()" value="清除">
+            </div>
+        </div>
+
+        <div class="control-group">
+            <label class="control-label">选择角色</label>
+            <div class="controls">
+                <label class="radio">
+                    <input type="radio" class="m-wrap m-ctrl-medium" name="status" data-rule-required="true" <#if user.authentication ==3>checked="checked"</#if> value="3" />站点管理员
+                </label>
+                <label class="radio">
+                    <input type="radio" class="m-wrap m-ctrl-medium" name="status" data-rule-required="true" <#if user.authentication ==4>checked="checked"</#if> value="4"/>编辑人员
+                </label>
+                <label class="radio">
+                    <input type="radio" id = "authoNo" class="m-wrap m-ctrl-medium" name="status" data-rule-required="true" <#if !user.authentication?if_exists || user.authentication ==0 >checked="checked"</#if> value="0"/>无
+                </label>
+            </div>
+        </div>
+        <input type="hidden" name="userId" value="${user.id}">
+        <input type="hidden" id="siteIds" name="siteIds" value="">
+        <input type="hidden" id="data" name="data" value="${jsonArray}">
+    </form>
+</div>
+<div class="modal-footer">
+    <input type="button" onclick="submitSettingModel('metroUserController.do?saveSetting','setting_site_form')" class="btn btn-primary" value="提交" />
+    <input type="button" class="btn" data-dismiss="modal" aria-hidden="true" value="关闭" />
+</div>
+<script>
+    $('#siteId').select2({
+        placeholder:'----------------请选择----------------',
+        width:'230px',
+        checkAllText : "全选", //全选按钮显示的文本
+        allowClear:true
+    });
+
+    $(function (){
+        var data = $("#data").val();
+        var json = data.split(",");
+        $("#siteId").val(json).trigger("change");
+    });
+
+    function cleanSelectText(){
+        $("#siteId").val(null).trigger("change");
+    }
+
+    function submitSettingModel(urlStr,forName){
+        var siteIds=$("#siteId").select2("val");
+
+        if(!$("#authoNo").attr("checked")){
+            if(siteIds.length<=0)
+            {
+                lmAlert("最少选择一个站点");
+                return;
+            }
+        }
+        $("#siteIds").val(siteIds);
+        $.ajax({
+            type:'post',
+            url:urlStr,
+            data:$('#' + forName).serialize(),
+            dataType:'text',
+            success:function(msg){
+                var obj = JSON.parse(eval(msg));
+                if(obj.isSuccess){
+                    var toUrl = obj.toUrl;
+                    if (!toUrl && typeof(toUrl)!="undefined" && toUrl!=0 && toUrl != '')
+                    {
+                        toUrl = arguments[2] + '';
+                    }
+                    $('#settingSiteModel').empty();
+                    $('#settingSiteModel').modal('hide');
+                    lmAlert(obj.msg);
+                    changePage(toUrl);
+                }else{
+                    lmAlert(obj.message);
+                }
+            },
+            error:function(){
+                lmAlert("load page error, page url is " + urlStr);
+            },
+        });
+    }
+
+</script>

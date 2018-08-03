@@ -1,0 +1,99 @@
+<#assign name ="catalogTag">
+    <#assign catalogTag =newTag("${name}")>
+        <div class="nav-mod-1 png_bg" >
+            <ul>
+                <@lmcms_catalog uniqueCode="gn_inland" level="self" siteId='${site.id}'>
+                        <li><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:54px;">${catalog.name!''}</a></li>
+                </@lmcms_catalog>
+                <@lmcms_catalog uniqueCode="gj_international" level="self" siteId='${site.id}'>
+                         <li><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:54px;">${catalog.name!''}</a></li>
+                </@lmcms_catalog>
+                <@lmcms_catalog uniqueCode="sh_society" level="self" siteId='${site.id}'>
+                        <li><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:54px;"><b>${catalog.name!''}</b></a></li>
+                </@lmcms_catalog>
+                <@lmcms_catalog uniqueCode="qw_anecdote" level="self" siteId='${site.id}'>
+                        <li><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:54px;">${catalog.name!''}</a></li>
+                </@lmcms_catalog>
+
+            </ul>
+            <ul>
+                <@lmcms_catalog uniqueCode="ys_molivideo" level="self" siteId='${site.id}'>
+                        <li><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:54px;"><b>${catalog.name!''}</b></a></li>
+                </@lmcms_catalog>
+                <@lmcms_catalog uniqueCode="mx_star" level="self" siteId='${site.id}'>
+                        <li><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:54px;">${catalog.name!''}</a></li>
+                </@lmcms_catalog>
+                <@lmcms_catalog uniqueCode="zy_variety" level="self" siteId='${site.id}'>
+                        <li><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:54px;">${catalog.name!''}</a></li>
+                </@lmcms_catalog>
+                <@lmcms_catalog uniqueCode="hd_activity" level="self" siteId='${site.id}'>
+                        <li><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:54px;">${catalog.name!''}</a></li>
+                </@lmcms_catalog>
+
+</ul>
+        </div>
+        <div class="navline"></div>
+        <div class="nav-mod-2 png_bg">
+            <ul>
+                <@lmcms_catalog uniqueCode="ly_travel" level="self" siteId='${site.id}'>
+                        <li><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:54px;">${catalog.name!''}</a></li>
+                </@lmcms_catalog>
+
+                <@lmcms_catalog uniqueCode="ms_cate" level="self" siteId='${site.id}'>
+                        <li><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:54px;">${catalog.name!''}</a></li>
+                </@lmcms_catalog>
+
+                <@lmcms_catalog uniqueCode="qc_car" level="self" siteId='${site.id}'>
+                        <li><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:54px;">${catalog.name!''}</a></li>
+                </@lmcms_catalog>
+
+                <@lmcms_catalog uniqueCode="hd_activity" level="self" siteId='${site.id}'>
+                        <li><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:54px;">${catalog.name!''}</a></li>
+                </@lmcms_catalog>
+            </ul>
+            <ul>
+                <@lmcms_catalog uniqueCode="tp_picture" level="self" siteId='${site.id}'>
+                    <li><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:54px;">${catalog.name!''}</a></li>
+                </@lmcms_catalog>
+
+                    <#assign catalog =catalogTag("{'levels':'self','name':'55'}")>
+                        <#if catalog?exists>
+                            <li><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:54px;">${catalog.name!''}</a></li>
+                        </#if>
+                        <#assign catalog =catalogTag("{'levels':'self','name':'27'}")>
+                            <#if catalog?exists>
+                                <li><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:54px;">${catalog.name!''}</a></li>
+                            </#if>
+            </ul>
+        </div>
+        <div class="navline"></div>
+        <div class="nav-mod-3 png_bg">
+            <ul>
+                <#assign catalog =catalogTag("{'levels':'self','name':'50'}")>
+                    <#if catalog?exists>
+                        <li><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:54px;">${catalog.name!''}</a></li>
+                    </#if>
+
+
+            </ul>
+            <ul>
+
+                <#assign catalog =catalogTag("{'levels':'self','name':'76'}")>
+                    <#if catalog?exists>
+                        <li><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:54px;">${catalog.name!''}</a></li>
+                    </#if>
+
+                    <#assign catalog =catalogTag("{'levels':'self','name':'79'}")>
+                        <#if catalog?exists>
+                            <li><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:54px;">${catalog.name!''}</a></li>
+                        </#if>
+                        <#assign catalog =catalogTag("{'levels':'self','name':'81'}")>
+                            <#if catalog?exists>
+                                <li class="mr"><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:70px;">${catalog.name!''}</a></li>
+                            </#if>
+                            <#assign catalog =catalogTag("{'levels':'self','name':'402881914e0a8fed014e0ad3812b0130'}")>
+                                <#if catalog?exists>
+                                    <li class="mr"><a href="${domain}${catalog.url!'javascript:void(0);'}" style="width:70px;">${catalog.name!''}</a></li>
+                                </#if>
+            </ul>
+        </div>

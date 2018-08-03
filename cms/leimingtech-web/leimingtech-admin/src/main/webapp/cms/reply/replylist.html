@@ -1,0 +1,232 @@
+<div class="row-fluid">
+    <div class="span12">
+        <div class="portlet">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-globe"></i>跟帖列表
+                </div>
+
+                <div class="actions">
+
+                </div>
+            </div>
+
+            <div class="portlet-body">
+                <div class="span12 booking-search">
+                    <form id="search_form" class="form-horizontal">
+                        <div class="clearfix">
+                            <div class="span6">
+                                <label> 文章标题： <input name="title" class=""
+                                                     type="text" value="${searchMap["title"]?if_exists[0]}">
+                            </div>
+
+                            <div class="span6">
+                                <label> 跟帖内容： <input name="content"
+                                                     type="text" value="${searchMap["content"]?if_exists[0]}">
+                                </label>
+                            </div>
+
+                            <div>
+                                <label style="float: left;">跟帖时间：
+                                    <input type="text" value="${createdTimeStart?if_exists}" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" name="createdTimeStart">
+                                    <span>—</span>
+                                    <input type="text" value="${createdTimeEnd?if_exists}" class="Wdate" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" name="createdTimeEnd">
+                                </label>
+                            </div>
+
+                            <div class="span4">
+                                <label class="control-label" style="width:173px;">状态：</label>
+                                <div class="controls" style="margin-left: 177px;">
+                                    <select name="replyState"class="form-control span12">
+                                        <option value="">全部</option>
+                                        <option value="0" <#if replyState=='0'>selected</#if>>未审核</option>
+                                        <option value="1" <#if replyState=='1'>selected</#if>>已通过</option>
+                                        <option value="2" <#if replyState=='2'>selected</#if>>已禁止</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="pull-right">
+                                <button type="button" class="btn yellow btn-sm"
+                                        onclick="toSearch('replyController.do?replyList', 'search_form');">
+                                    搜索 <i class="icon-search m-icon-white"></i>
+                                </button>
+                                <button type="button" class="btn yellow btn-sm"
+                                        onclick="resetForm('search_form');">
+                                    重置<i class="icon-repeat m-icon-white"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <table class="table table-striped table-bordered table-hover"
+                       id="sample_1">
+                    <thead>
+                    <tr>
+                        <th width="20">
+                            <input type="checkbox" onclick="checkall(this)">
+                        </th>
+
+                        <th style="width: 40px;text-align:center">序号</th>
+                        <th style="width: 80px;">跟帖人</th>
+                        <th style="">跟帖信息</th>
+                        <th style="width:60px;">审核状态</th>
+                        <th style="width:80px;">跟帖时间</th>
+
+                        <th style="width:180px;text-align:center">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <#if replyList?exists>
+                        <#list replyList as reply>
+                            <tr>
+                                <td rowspan="2" style="vertical-align: middle;text-align: center;">
+                                    <input type="checkbox" name="replyIds" value="${reply.replyId?if_exists}">
+                                </td>
+                                <td rowspan="2" style="vertical-align: middle;text-align: center;">${(pageNo-1)*pageSize+reply_index?if_exists+1}</td>
+                                <td rowspan="2" style="vertical-align: middle;">${reply.returnPerson}</td>
+                                <td>
+                                    ${reply.returnContent}
+                                </td>
+                                <td rowspan="2" style="vertical-align: middle;">
+                                    <#if reply.replyIsCheck == '1'>
+                                        已通过
+                                        <#elseif reply.replyIsCheck == '2'>
+                                            已禁止
+                                            <#elseif reply.replyIsCheck == '0'>
+                                                未审核
+                                    </#if>
+
+                                </td >
+                                <td rowspan="2" style="vertical-align: middle;">
+                                    ${reply.replyTime?date('yyyy-MM-dd')}
+                                </td>
+                                <td rowspan="2" style="vertical-align: middle;text-align:center">
+                                    <a class="text-decoration:none" href="javaScript:void(0)" onclick="toCheck('replyController.do?checkReply&pageNo=${pageNo}', '${reply.replyId?if_exists}', '1')">
+                                        <button type="button" class="btn green btn-sm">
+                                            通过
+                                        </button>
+                                    </a>
+                                    <a class="text-decoration:none" href="javaScript:void(0)" onclick="toCheck('replyController.do?checkReply&pageNo=${pageNo}', '${reply.replyId?if_exists}', '2')">
+                                        <button type="button" class="btn yellow btn-sm">
+                                            禁止
+                                        </button>
+                                    </a>
+                                    <a class="text-decoration:none" href="javaScript:void(0)" onclick="del('replyController.do?del', '${reply.replyId?if_exists}')">
+                                        <button type="button" class="btn red btn-sm">
+                                            删除
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="border-top: none;padding: 0px 8px 0px 0px;text-align: right;">
+                                    标题：<a href="http://${domain}/${reply.contentUrl}">${reply.contentTitle}</a>
+                                </td>
+                            </tr>
+                        </#list>
+                    </#if>
+                    </tbody>
+                </table>
+                <form class="form-horizontal">
+                    <div class="clearfix">
+                        <div class="">
+                            <button type="button" class="btn blue btn-sm"
+                                    onclick="operateSelected('replyController.do?checkReply&pageNo=${pageNo}','1')">
+                                通过所选项
+                            </button>
+                            <button type="button" class="btn grey btn-sm"
+                                    onclick="operateSelected('replyController.do?checkReply&pageNo=${pageNo}','2');">
+                                禁止所选项
+                            </button>
+                            <button type="button" class="btn red btn-sm"
+                                    onclick="selecteddel(this);">
+                                删除所选项
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <#include "/lmPage/common/page.html">
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+<div id="editModel" class="modal hide fade" tabindex="-1" data-backdrop="static" data-focus-on="input:first" data-width="1000"></div>
+
+<script type="text/javascript">
+    App.init();
+
+    function operateSelected(urlStr,data){
+        var obj = document.getElementsByName("replyIds");
+        var flag = true;
+        for(i in obj){
+            if(obj[i].checked){
+                flag=false;
+                toCheck(urlStr, obj[i].value,data);
+            }
+        }
+        if(flag){
+            lmAlert("您还没有选择项目");
+        }
+    }
+
+    function selecteddel(obj){
+        lmConfirm("是否删除该记录？","",function (){
+            obj = document.getElementsByName("replyIds");
+            var flag = true;
+            for(i in obj){
+                if(obj[i].checked){
+                    flag=false;
+                    toCheck('replyController.do?del&pageNo=${pageNo}', obj[i].value, '0');
+                }
+            }
+            if(flag){
+                lmAlert("您还没有选择项目");
+            }
+        });
+
+    }
+
+    function checkall(obj){
+        if(obj.checked==true){
+            $("input[name='replyIds']").each(function(){
+                $(this).attr("checked", "checked");
+            });
+        }else{
+            $("input[name='replyIds']").each(function(){
+                $(this).attr("checked", false);
+            });
+        }
+        //解决调整uniform对checkbox美化后，全选不自动更新问题
+        $.uniform.update();
+    }
+
+    function toCheck(urlStr, id, type){
+        $.ajax({
+            type:'post',
+            url:urlStr,
+            data:'id=' + id + "&ischeck=" + type,
+            success:function(msg){
+                var obj = JSON.parse(eval(msg));
+                if(obj.isSuccess){
+                    var toUrl = obj.toUrl;
+                    if (!toUrl && typeof(toUrl)!="undefined" && toUrl!=0 && toUrl != '')
+                    {
+                        toUrl = arguments[2] + '';
+                    }
+                    lmAlert(obj.msg);
+                    changePage(toUrl);
+                }else{
+                    lmAlert("删除处理失败!");
+                }
+            },
+            error:function(){
+                lmAlert("提交通讯失败!");
+            }
+        });
+    }
+</script>

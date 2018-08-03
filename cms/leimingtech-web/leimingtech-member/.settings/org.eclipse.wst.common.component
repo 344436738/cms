@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="leimingtech-member">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="leimingtech-core-4.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/leimingtech-core/leimingtech-core">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="leimingtech-common-4.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/leimingtech-common/leimingtech-common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="leimingtech-base-entity-4.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/leimingtech-base-entity/leimingtech-base-entity">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="leimingtech-wechat-entity-4.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/leimingtech-wechat-entity/leimingtech-wechat-entity">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="leimingtech-cloudlive-entity-4.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/leimingtech-cloudlive-entity/leimingtech-cloudlive-entity">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="leimingtech-member-entity-4.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/leimingtech-member-entity/leimingtech-member-entity">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="leimingtech-cms-entity-4.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/leimingtech-cms-entity/leimingtech-cms-entity">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="leimingtech-cms-4.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/leimingtech-cms/leimingtech-cms">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="leimingtech-lucene-4.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/leimingtech-lucene/leimingtech-lucene">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="leimingtech-mobile-4.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/leimingtech-mobile/leimingtech-mobile">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="leimingtech-mobile-entity-4.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/leimingtech-mobile-entity/leimingtech-mobile-entity">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="leimingtech-ueditor-4.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/leimingtech-ueditor/leimingtech-ueditor">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="leimingtech-weibo-4.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/leimingtech-weibo/leimingtech-weibo">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="leimingtech-weibo-entity-4.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/leimingtech-weibo-entity/leimingtech-weibo-entity">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="leimingtech-member"/>
+        <property name="java-output-path" value="/leimingtech-member/target/classes"/>
+    </wb-module>
+</project-modules>

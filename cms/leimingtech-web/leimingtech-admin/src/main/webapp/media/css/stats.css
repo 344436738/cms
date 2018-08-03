@@ -1,0 +1,94 @@
+/***
+网站统计
+***/
+.massive{
+    margin:0 auto;
+    width:100%;
+}
+.massive_pv{
+    margin-left: 50px;
+    margin-bottom: 40px;
+    float:left;
+    height:180px;
+    width: 200px;
+    background-color: lightgrey;
+    border:1px solid #333333;
+    text-align:center;
+    position: relative;
+}
+.massive_title {
+    position:absolute;
+    bottom:0px;
+    padding:0px;
+}
+.massive_title span{
+    font-weight:bold;
+    font-size:20px;
+    margin-left: 75px;
+}
+.character_pv {
+    float: left;
+    position:absolute;
+    top:0px;
+    width: 200px;
+    height: 50px;
+    background-color: darkgrey;
+}
+.character_pv p{
+    margin-top: 13px;
+}
+
+.character_uv {
+    position:absolute;
+    margin-top: 50px;
+    width: 200px;
+    height: 50px;
+    background-color: #D1D1D1;
+}
+.character_uv p{
+    margin-top: 13px;
+}
+.character_ip {
+    float: left;
+    position:absolute;
+    bottom:27px;
+    padding:0px;
+    margin:0px;
+    width: 200px;
+    height: 50px;
+    background-color: #E8E8E8;
+}
+.character_ip p{
+
+    margin-top: 13px;
+
+}
+
+.p_figure {
+    float: left;
+    font-size:16px;
+    margin-left: 45px;
+}
+.p_flag{
+    float: left;
+    font-weight: bolder;
+}
+.spanone{
+    font-size:18px;
+    margin-left: 40px;
+    margin-bottom: 15px;
+}
+/*.condition{*/
+    /*background-color: #E8E8E8;*/
+/*}*/
+.condition li{
+    list-style-type:none;
+    float: left;
+    font-size:15px;
+    margin-left: 35px;
+    font-weight: 900;
+}
+.condition select{
+    margin-top: 10px;
+    margin-left: 25px;
+}

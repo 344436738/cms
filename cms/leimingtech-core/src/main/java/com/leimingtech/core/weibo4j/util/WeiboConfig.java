@@ -1,0 +1,34 @@
+package com.leimingtech.core.weibo4j.util;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+
+public class WeiboConfig {
+	
+	private static Properties props = new Properties(); 
+	static{
+		try {
+			props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("weiboconfig.properties"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public static String getValue(String key){
+		return props.getProperty(key);
+	}
+
+    public static void updateProperties(String key,String value) {    
+            props.setProperty(key, value); 
+    } 
+    
+    public static void main(String[] args) throws IOException {
+    	WeiboConfig aa = new WeiboConfig();
+    	System.out.println(aa.getClass().getProtectionDomain().getCodeSource().getLocation().getPath() + "weiboconfig.properties");
+    	System.out.println(Thread.currentThread().getContextClassLoader().getResourceAsStream("weiboconfig.properties"));
+    	props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("weiboconfig.properties"));
+    	System.out.println(props);
+	}
+}

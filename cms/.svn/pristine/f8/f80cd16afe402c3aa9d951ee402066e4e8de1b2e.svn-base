@@ -1,0 +1,69 @@
+<#macro  childFunctionTree pid level>
+	<#if list?exists && list?size gt 0>
+		<#list list as function>
+			<#if function.level gt level && function.parentId == pid>
+				<#if (function.childShowCount > 0) >
+					<li <#if function_index==0>class="start"</#if>>
+						<a href="javaScript:void(0);" onclick="changePage('${function.href?if_exists}')">
+							<i class="icon-folder-close"></i>
+							<span class="title">${function.name?if_exists}</span>
+				`			<span class="arrow "></span>
+							<span class="selected"></span>
+						</a>
+						<ul class="sub-menu">
+							<@childFunctionTree  pid=function.id level=function.level />
+						</ul>
+					</li>
+				<#else>
+					<li <#if function_index==0>class="start"</#if>>
+						<a href="javaScript:void(0);" onclick="changePage('${function.href?if_exists}')">
+							<i class="${function.icon!'icon-folder-close'}"></i>
+							<span class="title">${function.name?if_exists}</span>
+							<span class="selected"></span>
+						</a>
+					</li>
+				</#if>
+			</#if>
+		</#list>
+	</#if>
+</#macro>
+
+
+<#if list?exists && list?size gt 0>
+	<#list list as function>
+		<#if function_index==0>
+			<#assign level=function.level/>
+		</#if>
+
+		<#if function.level==level>
+		<#if (function.childShowCount > 0) >
+			<li <#if function_index==0>class="start"</#if>>
+				<a href="javaScript:void(0);" onclick="changePage('${function.href?if_exists}')">
+					<i class="icon-folder-close"></i>
+					<span class="title">${function.name?if_exists}</span>
+					<span class="arrow "></span>
+					<span class="selected"></span>
+				</a>
+				<ul class="sub-menu">
+					<@childFunctionTree  pid=function.id level=function.level />
+				</ul>
+			</li>
+		<#else>
+			<li <#if function_index==0>class="start"</#if>>
+				<a href="javaScript:void(0);" onclick="changePage('${function.href?if_exists}')">
+					<i class="${function.icon!'icon-folder-close'}"></i>
+					<span class="title">${function.name?if_exists}</span>
+					<span class="selected"></span>
+				</a>
+			</li>
+		</#if>
+		</#if>
+	</#list>
+</#if>		
+<script type="text/javascript">
+	jQuery(document).ready(function() {
+		   App.handleSidebarMenu(); // handles main menu
+	});
+</script>
+
+		

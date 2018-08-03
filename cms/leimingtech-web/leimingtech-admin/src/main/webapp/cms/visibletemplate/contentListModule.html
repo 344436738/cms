@@ -1,0 +1,65 @@
+<div class="modal-header">
+    <h3>选择内容</h3>
+</div>
+<div class="modal-body">
+    <form id="embedContentForm">
+        <table id="c_table">
+            <thead>
+            <tr>
+                <th style="width:40px;">序号</th>
+                <th style="">标题</th>
+                <th style="">来源</th>
+                <th style="">摘要</th>
+            </tr>
+            </thead>
+            <tbody>
+            <#if contentList?exists>
+                <#list contentList as content>
+                    <input type="hidden" name="id" value="${content.id}">
+                    <#if content.id==contentId>
+                        <tr bgcolor="#d0d0d0">
+                            <td class="test">
+                                <a href="#" onclick="embedContentSubmit('${content.id}')">${content_index+1}</a>
+                            </td>
+                            <td class="test">
+                                <a href="#" onclick="embedContentSubmit('${content.id}')">${content.title}</a>
+                            </td>
+
+                            <td class="test">
+                                <a href="#" onclick="embedContentSubmit('${content.id}')">${content.sourceid}</a>
+                            </td>
+                            <td class="test">
+                                <a href="#" onclick="embedContentSubmit('${content.id}')">${content.digest}</a>
+                            </td>
+                        </tr>
+                    <#else>
+                        <tr>
+                            <td class="test">
+                                <a href="#" onclick="embedContentSubmit('${content.id}')">${content_index+1}</a>
+                            </td>
+                            <td class="test">
+                                <a href="#" onclick="embedContentSubmit('${content.id}')">${content.title}</a>
+                            </td>
+
+                            <td class="test">
+                                <a href="#" onclick="embedContentSubmit('${content.id}')">${content.sourceid}</a>
+                            </td>
+                            <td class="test">
+                                <a href="#" onclick="embedContentSubmit('${content.id}')">${content.digest}</a>
+                            </td>
+                        </tr>
+                    </#if>
+
+                </#list>
+            </#if>
+            </tbody>
+        </table>
+        <input type="hidden" id="embedContentModuleId" name="moduleId">
+        <input type="hidden" id="embedContentModuleKey" name="moduleKey">
+        <input type="hidden" id="embedContentModuleContentId" name="contentId">
+        <input type="hidden" id="embedContentModuleParamId" name="paramId">
+    </form>
+</div>
+<div class="modal-footer">
+    <a class="btn" data-dismiss="modal" onclick="closeEmbedContentParamModal()">关闭</a>
+</div>

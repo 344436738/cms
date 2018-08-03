@@ -1,0 +1,51 @@
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+	<h4 class="modal-title">微信企业号</h4>
+</div>
+<div class="modal-body">
+	<!-- BEGIN FORM-->
+	<form id="wechatEnterpriseConfig_form" class="form-horizontal">
+		<input type="hidden" id="id" name="id" value="${wechatEnterpriseConfigEntity.id?if_exists}"/>
+		<div class="control-group">
+			<label class="control-label">企业号名称</label>
+			<div class="controls">
+				<input type="text" id="corpName" name="corpName" placeholder="自定义企业号名称" class="span3 form-control" data-rule-required="true" value="${wechatEnterpriseConfigEntity.corpName?if_exists}"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">企业id</label>
+			<div class="controls">
+				<input type="text" id="corpId" name="corpId" class="span3 form-control" placeholder="GorpId" data-rule-required="true" value="${wechatEnterpriseConfigEntity.corpId?if_exists}"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">管理组凭证密钥</label>
+			<div class="controls">
+				<input type="text" id="corpSecret" name="corpSecret" placeholder="Secret" class="span3 form-control" data-rule-required="true" value="${wechatEnterpriseConfigEntity.corpSecret?if_exists}"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">企业应用的id</label>
+			<div class="controls">
+				<input type="text" id="agentid" name="agentid" placeholder="创建应用Id" class="span3 form-control" data-rule-required="true" value="${wechatEnterpriseConfigEntity.agentid?if_exists}"/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">企业号token</label>
+			<div class="controls">
+				<input type="text" id="accessToken" name="accessToken" readonly placeholder="提交后获取accesstoken" class="span3 form-control" value="${wechatEnterpriseConfigEntity.accessToken?if_exists}"/>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<input type="button" onclick="formSubmitModel('wechatEnterpriseConfigController.do?save', 'wechatEnterpriseConfig_form');" class="btn btn-primary" value="提交">
+	<input type="button" class="btn" value="关闭" data-dismiss="modal">
+</div>
+<script>
+//校验
+jQuery(document).ready(function() {   
+   App.init();
+   $("#wechatEnterpriseConfigEntity_form").myValidate();
+});
+</script>

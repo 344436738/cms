@@ -1,0 +1,91 @@
+<div class="modal-body">
+<div class="row-fluid">
+	<div class="span12">
+	<!-- BEGIN EXAMPLE TABLE PORTLET-->
+		<div class="portlet">
+				<div class="portlet-title">
+					<div class="caption"><i class="icon-globe"></i>用户列表</div>
+					<div class="actions">
+						<button id="sample_editable_1_new" class="btn yellow-stripe" onclick="showModel('contributeConfigController.do?findMemberPage&modelDivId=membetListModel','membetListModel')">
+							添加用户 <i class="icon-plus"></i>
+						</button>
+							<button  class="btn yellow-stripe"  data-dismiss="modal" aria-hidden="true" onclick="lazyChangePage('contributeConfigController.do?contributeConfig')"> 关闭 </button>
+					</div>
+				</div>
+			
+				<table class="table table-striped table-bordered table-hover" id="sample_1">
+					<thead>
+							<th style="">用户</th>
+							<th width="40" style="text-align:center;">操作</th>
+					</thead>
+					<tbody>
+					<#if memberList?exists>
+					  <#list memberList as member>
+						<tr class="odd gradeX" memberId="${member.id}">
+							<td class="center">${member.username!''}</td>
+							<td style="text-align:center;">
+								<input type="button" class="delbtn" onclick="delMember('${member.id}')"/>
+							</td>
+						</tr>
+					  </#list> 
+					</#if>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	<!-- END EXAMPLE TABLE PORTLET-->
+	</div>
+</div>
+</div>
+<script>
+	function  formSubmitMember(){
+		var urlStr="contributeConfigController.do?addMember&id=${contributeConfig.id?if_exists}";
+		$.ajax({
+			type:'post',
+			url:urlStr,
+			data: $('#memberList').serialize(),
+			dataType:'text',
+			success:function(msg){
+				var obj = JSON.parse(eval(msg));
+				if(obj.isSuccess){
+					var toUrl = obj.toUrl;
+
+					if (!toUrl && typeof(toUrl)!="undefined" && toUrl!=0 && toUrl != '')
+					{
+						toUrl = arguments[2] + '';
+					}
+					var $model=$('#membetListModel');
+					$model.modal('hide');
+					$model.empty();
+					lmAlert(obj.msg);
+					
+					showModel('contributeConfigController.do?editMember&id=${contributeConfig.id?if_exists}','editMemberModel');
+				}else{
+					lmAlert(obj.msg);
+				}
+			},
+			error:function(){
+				lmAlert("提交通讯失败!");
+			}
+		});
+	}
+	
+	function delMember(id){
+		$.ajax({
+			type:'post',
+			url:"contributeConfigController.do?delMember&id=${contributeConfig.id?if_exists}&memberId="+id,
+			dataType:'text',
+			success:function(msg){
+				var obj = JSON.parse(eval(msg));
+				if(obj.isSuccess){
+					$("tr[memberId='"+id+"']").remove();
+				}else{
+					lmAlert(obj.msg);
+				}
+			},
+			error:function(){
+				lmAlert("提交通讯失败!");
+			}
+		});
+	}
+</script>

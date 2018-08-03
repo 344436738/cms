@@ -1,0 +1,93 @@
+<script src="js/wechat-enterprose.js"></script>
+<div class="row-fluid">
+	<div class="span12">
+		<div class="portlet">
+			<div class="portlet-title">
+				<div class="caption"><i class="icon-globe"></i>微信推送记录</div>
+				<!--<div class="actions">
+					<button onclick="enterprisePushMessage('wechatenterprisePushController.do?add')" class="btn yellow-stripe"><i class="fa fa-plus"></i> 新增 </button>
+				</div>-->
+			</div>
+			
+			<div class="portlet-body">
+				<div class="span12 booking-search">
+					<form id="search_form">
+						<div class="clearfix">
+							<div class="span4">
+								<label style="margin-bottom:0px;">
+									配置名称：
+									<input name="enterpriseConfigId" class="form-control span7" type="text" value="${searchMap["enterpriseConfigId"]?if_exists[0]}" style="margin-bottom:0px;">
+								</label>
+							</div>
+							<div class="pull-right">
+								<button type="button" class="btn yellow btn-sm" onclick="toSearch('wechatenterprisePushController.do?wechatenterprisePush', 'search_form');">搜索  <i class="icon-search m-icon-white"></i></button>
+								<button type="button" class="btn yellow btn-sm" onclick="resetForm('search_form');">重置<i class="icon-repeat m-icon-white"></i></button>
+							</div>
+						</div>
+					</form>
+				</div>
+				
+				<table class="table table-striped table-bordered table-hover" id="sample_1">
+					<thead>
+						<tr>
+							<th width="40" style="text-align:center;">序号</th>
+							<th width="200"style="text-align:center;">配置名称</th>
+							<th style="text-align:center;">推送标题</th>
+							<th width="60"style="text-align:center;">是否推送</th>
+							<th width="150"style="text-align:center;">推送时间</th>
+							<th width="50" style="text-align:center;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					<#if wechatenterprisePushList?exists>
+					  <#list wechatenterprisePushList as wechatenterprisePush>
+						<tr class="odd gradeX">
+							<td style="text-align:center;">${(pageNo-1)*pageSize+wechatenterprisePush_index?if_exists+1}</td>
+							<td style="text-align:center;">
+								${wechatenterprisePush.enterpriseConfigName}
+							</td>
+							<td style="text-align:center;">
+								${wechatenterprisePush.pushContentTitle}
+							</td>
+							<td style="text-align:center;">
+								<#if wechatenterprisePush.isSuccess==0>
+									否
+								<#else>
+									是
+								</#if>
+							</td>
+							<td style="text-align:center;">
+								<#if wechatenterprisePush.isSuccess==0>
+
+								<#else>
+
+								${wechatenterprisePush.createTime?string("yyyy-MM-dd HH:mm:ss")}
+								</#if>
+							</td>
+							<td style="text-align:center;">
+								<div class="btn-group" style="height:20px;margin: 0px !important;">
+									<input type='button' title='管理选项' class="dropdown-toggle" data-toggle="dropdown" style='width:25px; height:16px;  border:0; background:url(media/image/menu.png) no-repeat left top'>
+									<ul class="dropdown-menu pull-right" style="min-width:80px;">
+										<li><a href="javaScript:void(0)" onclick="enterprisePushMessage('wechatenterprisePushController.do?edit&id=${wechatenterprisePush.id?if_exists}')">查看</a></li>
+										<li><a href="javaScript:void(0)" onclick="del('wechatenterprisePushController.do?del', '${wechatenterprisePush.id?if_exists}')">删除</a></li>
+<!--
+										<li><a href="javaScript:void(0)" onclick="wechatPush('wechatenterprisePushController.do?weChatPush', '${wechatenterprisePush.id?if_exists}')">推送</a></li>
+-->
+									</ul>
+								</div>
+							</td>
+						</tr>
+					  </#list> 
+					</#if>
+					</tbody>
+				</table>
+				<#include "/lmPage/common/page.html">
+			</div>
+		</div>
+	</div>
+</div>
+<div id="editModel" class="modal fade" tabindex="-1" data-backdrop="static" data-focus-on="input:first" data-width="800"></div>
+<div id="wechatEnterpriseModel" class="modal fade" tabindex="-1" data-backdrop="static" data-focus-on="input:first" data-width="800"></div>
+<div id="pushMessageModel" class="modal fade" tabindex="-1" data-backdrop="static" data-focus-on="input:first" data-width="700"></div>
+<div id="enterprisePushList" class="modal fade" tabindex="-1" data-backdrop="static" data-focus-on="input:first" data-width="800"></div>
+<div id="pushPreview" class="modal fade" tabindex="-1" data-backdrop="static" data-focus-on="input:first" data-width="800"></div>

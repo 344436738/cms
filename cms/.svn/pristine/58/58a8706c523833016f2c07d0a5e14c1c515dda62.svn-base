@@ -1,0 +1,128 @@
+<div class="row-fluid">
+	<div class="span12">
+		<div class="portlet">
+			<div class="portlet-title">
+				<div class="caption"><i class="icon-globe"></i>投稿配置</div>
+			</div>
+			
+			<div class="portlet-body">
+				<div class="span12 booking-search">
+					<form id="search_form">
+						<div class="clearfix">
+							<div class="span4">
+								<label style="margin-bottom:0px;">
+									栏目名：
+									<input name="catName" class="form-control span7" type="text" value="${catName!''}" style="margin-bottom:0px;">
+								</label>
+							</div>
+							<div class="pull-right">
+								<button type="button" class="btn yellow btn-sm" onclick="toSearch('contributeConfigController.do?contributeConfig', 'search_form');">搜索  <i class="icon-search m-icon-white"></i></button>
+								<button type="button" class="btn yellow btn-sm" onclick="resetFormRefresh('contributeConfigController.do?contributeConfig', 'search_form');">重置<i class="icon-repeat m-icon-white"></i></button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<form id="contentCatList_form">
+				<table class="table table-striped table-bordered table-hover" id="contentCatList">
+					<thead>
+						<tr>
+							<th width="150">栏目</th>
+							<th style="">部门</th>
+							<th width="130">用户</th>
+							<th width="110">针对人员</th>
+							<th width="155" style="text-align:center;">操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					<#if contributeConfigList?exists>
+					  <#list contributeConfigList as contributeConfig>
+						<tr class="odd gradeX">
+							<td>
+								${contributeConfig.catName}
+							</td>
+							<td>
+								<#if contributeConfig.departIds!=''>
+									<#list contributeConfig.departIds?split(",") as departId>
+										${departMap[departId]}
+									</#list>
+								</#if>
+							</td>
+							<td>
+								<#if contributeConfig.memberIds!=''>
+									<span class="text" title="点击可查看具体人员" style="cursor: pointer;" onclick="showModel('contributeConfigController.do?editMember&id=${contributeConfig.id?if_exists}','editMemberModel')">已指定${contributeConfig.memberIds?split(",")?size}人可以投稿</span>
+								</#if>
+							</td>
+							<td>
+								<#if contributeConfig.openFlag == '0'>
+								指定人员、人员组
+								<#else>
+								允许所有人
+								</#if>
+							</td>
+							<td style="text-align:center;">
+								<input type="hidden" name="id" value="${contributeConfig.id?if_exists}"/>
+								<p style="margin-bottom: 3px;">
+									<a href="javascript:void(0);" class="btn yellow btn-sm" onclick="showModel('contributeConfigController.do?editDepart&id=${contributeConfig.id?if_exists}','editDepartModel')">指派部门</a>
+									<a href="javascript:void(0);" class="btn yellow btn-sm" onclick="showModel('contributeConfigController.do?editMember&id=${contributeConfig.id?if_exists}','editMemberModel')">指派人员</a>
+								</p>
+								<p style="margin-bottom: 0px;">
+									<a href="javascript:void(0);" class="btn yellow btn-sm contentCatUp">上移</a>
+									<a href="javascript:void(0);" class="btn yellow btn-sm contentCatDown">下移</a>
+								</p>
+							</td>
+						</tr>
+					  </#list> 
+					</#if>
+					</tbody>
+				</table>
+				</form>
+				<#include "/lmPage/common/page.html">
+			</div>
+		</div>
+	</div>
+</div>
+<div id="membetListModel" class="modal fade" tabindex="-1" data-backdrop="static" data-focus-on="input:first" data-width="550"></div>
+<div id="editDepartModel" class="modal fade" tabindex="-1" data-backdrop="static" data-focus-on="input:first" data-width="350"></div>
+<div id="editMemberModel" class="modal fade" tabindex="-1" data-backdrop="static" data-focus-on="input:first" data-width="350"></div>
+
+<script>
+$(function (){
+	$("#contentCatList").on("click",".contentCatUp",function (){
+		var $tr = $(this).parent().parent().parent();
+		  if ($tr.index() != 0) {
+		   $tr.prev().before($tr);
+		   saveContentCatSort();
+		  }
+	});
+	$("#contentCatList").on("click",".contentCatDown",function (){
+		var $tr = $(this).parent().parent().parent();
+		  if ($tr.index() != $("#contentCatList .contentCatDown").length - 1) {
+		   $tr.next().after($tr);
+		   saveContentCatSort();
+		  }
+	});
+});
+
+function saveContentCatSort(){
+	$.ajax({
+		type:'post',
+		url:'contributeConfigController.do?saveSort',
+		data:$('#contentCatList_form').serialize(),
+		dataType:'text',
+		success:function(msg){
+			var obj = JSON.parse(eval(msg));
+			if(obj.isSuccess){
+				UIToastr.success("已为您自动保存最新排序！");
+			}else{
+				lmAlert(obj.msg);
+			}
+		},
+		error:function(){
+			lmAlert("提交通讯失败!");
+		},
+		complete:function (){
+		
+		}
+	});
+}
+</script>

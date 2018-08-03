@@ -1,0 +1,217 @@
+<#if contentcatList?exists && contentcatList?size gt 0>
+<link rel="stylesheet" type="text/css" href="${contextpath}/plug-in/ueditor/third-party/webuploader/webuploader2.css">
+<script type="text/javascript" src="${contextpath}/plug-in/ueditor/third-party/webuploader/webuploader.js"></script>
+<style type="text/css">
+	table#accessory_table tr:hover{background-color: white;}
+	table#accessory_table tr{line-height: 35px;}
+	table#accessory_table tr{border: 1px solid #DDD;}
+	#subform table tr:hover{background-color: white;}
+	
+	#accessory_upload_btn{
+    display: block;
+    margin: 5px 0px !important;
+    line-height: 25px;
+    padding: 0px 9px;
+    float: left;
+    border: solid 1px #3F51B5;
+    cursor: pointer;
+    height: 25px;
+    position: relative;
+}
+#accessory_upload_btn .webuploader-pick{padding:0px;}
+</style>
+<div>
+    <form id="subform">
+        <input type="hidden" id="id" name="id"
+               value="${contents.id?if_exists}" />
+
+        <table width="100%" style="border:0px none;">
+            <tr>
+	            <td>	
+	            	栏目：
+	            	<#if contents.catid !=''>
+	            		<#list contentcatList as contentCat>
+	            			<#if contentCat.catId==contents.catid>
+                                ${contentCat.catName!''}
+                                <#break>
+                            </#if>
+	            		</#list>
+	            		<input type="hidden" value="${contents.catid!''}" name="contentCatId"/>
+	            	</#if>
+	            </td>
+            </tr>
+            <#if contents.catid ==''>
+            <tr>
+                <td><select name="contentCatId" id="contentCatId"
+                            style="height:30px;">
+                    <option value="">---请选择栏目---</option>
+                    <#list contentcatList as contentCat>
+                        <option value="${contentCat.catId}"
+                        <#if contents.catid?if_exists[0]?has_content>
+                            <#if contentCat.catId==contents.catid>
+                                selected="selected"
+                            </#if>
+                        </#if> >
+                        ${contentCat.catName?if_exists}</option>
+                    </#list>
+                </select>
+
+            </tr>
+            </#if>
+
+            <tr><td>标题：</td></tr>
+            <tr>
+
+                <td>
+                	<input type="text" name="title" id="title" value="${contents.title?if_exists}" style="width:400px;" />
+                </td>
+            </tr>
+            <tr>
+
+                <td><textarea id="ueditor" name="content" type="text/plain"
+                              style="height: 500px; width: 100%">${contents.content?if_exists}</textarea>
+                    <script type="text/javascript">
+                        //实例化编辑器
+                        //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+                        var ueditor = UE.getEditor('ueditor', {
+                            autoHeightEnabled : false,
+                            autoFloatEnabled : false
+                        });
+                    </script></td>
+            </tr>
+            
+            <tr style="line-height: 50px;">
+            	<td><span  id="accessory_upload_btn"  >上传附件</span></td>
+            </tr>
+            
+            <tr>
+            	<td>
+					<table style="width:99%;margin: 0px 10px 10px 0px;border: none;border-collapse:collapse;<#if !accessoryList?exists || accessoryList?size == 0>display: none;</#if>" id="accessory_table">
+						<tr>
+							<td style="padding: 3px 3px 3px 10px;">名称</td>
+							<td width="40" style="text-align: center;">操作</td>
+						</tr>
+						<#if accessoryList?exists && accessoryList?size gt 0>
+							<#list accessoryList as accessory>
+						<tr>
+							<td style="padding: 3px 3px 3px 10px;">${accessory.accessoryName!''}</td>
+							<td width="40" style="text-align: center;">
+								<input type="hidden" name="accessory_id" value="${accessory.id!''}"/>
+								<input type="hidden" name="accessory_title" value="${accessory.accessoryName!''}"/>
+								<input type="hidden" name="accessory_url" value="${accessory.accessoryUrl!''}"/>
+								<a href="javascript:void(0)" class="removeAccessory">删除</a>
+							</td>
+						</tr>
+							</#list>
+						</#if>
+					</table>
+				</td>
+            </tr>
+            
+            <tr>
+
+                <td>	
+                		验证码：<input type="text" name="valicode" id="valicode" class="txt" /> 
+                        <span style="position: absolute; top: 32px; left: 0px;" class="help-inline" htmlfor="valicode"></span> 
+                        <img title="点击刷新验证码" alt="点击刷新验证码" id="randCodeImage" src="${contextpath}/randCodeImage" style="margin-bottom:-8px; width:74px; height:37px;"></td>
+            </tr>
+            <tr>
+                <td class="tc" colspan="4">
+                    <div class="form-actions" style="text-align: center">
+                        <input type="button" class="btn btn-primary"
+                               onclick="subContentform('contributeController.do?saveContribute', 'subform');"
+                               value="保存投稿">
+                    </div></td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript">
+    function subContentform(urlStr, formName) {
+        if ($('#' + formName)) {
+            $.ajax({
+                type : 'post',
+                url : urlStr,
+                data : $('#' + formName).serialize(),
+                success : function(msg) {
+                    var obj = JSON.parse(eval(msg));
+                    var toUrl = obj.toUrl;
+                    if (!obj.isSuccess) {
+                        alert(obj.msg);
+                    } else {
+                        alert(obj.msg);
+                        location.href = toUrl;
+                    }
+                },
+                error : function() {
+                    alert("提交通讯失败!");
+                }
+            });
+        }
+
+    }
+
+    // 验证码
+    $('#randCodeImage').click(function(){
+        reloadRandCodeImage();
+    });
+
+    // 刷新验证码
+    function reloadRandCodeImage() {
+        var date = new Date();
+        var img = document.getElementById("randCodeImage");
+        img.src='${contextpath}/randCodeImage?a=' + date.getTime();
+    }
+    
+    //图片上传
+var uploaderThumb = WebUploader.create({
+    // 选完文件后，是否自动上传。
+    auto: true,
+
+    // swf文件路径
+    swf: '${contextpath}plug-in/ueditor/third-party/webuploader/Uploader.swf',
+
+    // 文件接收服务端。
+    server: '${contextpath}/controller.jsp?action=uploadfile',
+
+    // 选择文件的按钮。可选。
+    // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+    pick: '#accessory_upload_btn',
+
+    // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+    resize: false,
+
+    duplicate: true
+
+});
+
+
+//当有文件添加进来的时候
+uploaderThumb.on('uploadSuccess', function (file, Object) {
+	$("#accessory_table").append("<tr><td style=\"padding: 3px 3px 3px 10px;\">"+fi.name+"</td>"
+							+"<td width=\"40\" style=\"text-align: center;\">"
+							+"<input type=\"hidden\" name=\"accessory_id\" value=\"\"/>"
+							+"<input type=\"hidden\" name=\"accessory_title\" value=\""+file.name+"\"/>"
+							+"<input type=\"hidden\" name=\"accessory_url\" value=\""+Object.url+"\"/><a href=\"javascript:void(0)\" class=\"removeAccessory\">删除</a></td></tr>");
+							
+	if($("#accessory_table tr").length>1){
+		$("#accessory_table").show();
+	}
+});
+
+$(function (){
+
+    $("#accessory_table").on("click",".removeAccessory",function (){
+        $(this).parent().parent().remove();
+        if($("#accessory_table tr").length===1){
+            $("#accessory_table").hide();
+        }
+    });
+});
+
+
+</script>
+<#else>
+非常抱歉，投稿功能已关闭
+</#if>

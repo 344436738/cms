@@ -1,0 +1,138 @@
+<div class="row-fluid">
+	<div class="span12">
+		<div class="portlet">
+			<div class="portlet-title">
+				<div class="caption"><i class="icon-globe"></i>发稿量统计</div>
+				<div class="tools">
+					<a href="javascript:;" class="collapse"></a>
+				</div>
+			</div>
+			<div class="portlet-body">
+				<div class="span12 booking-search">
+					<div>筛选条件：</div>
+					<br>
+					<form id="search_form">
+						<div class="clearfix">
+							<div>
+								<label>站点：
+									<select id="siteId" name="siteId" onchange="selectSite()">
+										<#if siteList?exists && siteList?size gt 0>
+											<#list siteList as site>
+												<option value="${site.id}" <#if siteId==site.id>selected</#if>>
+												      ${site.siteName}
+												</option>
+											</#list>
+										</#if>
+									</select>
+								</label>
+							</div>
+							<div>
+								<label>年份：
+									<#if yearList?exists && yearList?size gt 0>
+										<#list yearList as year>
+											<a href="javascript:void(0);" style="margin-right: 40px" class="btn <#if pressYear==year>yellow<#else>blue</#if> btn-sm" onclick="changeYear('${year}')">${year}</a>
+										</#list>
+									</#if>
+								</label>
+								<input type="hidden" id="pressYear" name="pressYear" value="${pressYear?if_exists}">
+							</div>
+						</div>
+					</form>
+				</div>
+				<div style="text-align: right"><a class="btn green btn-sm" href="javascript:void(0);" onclick="toExcel('pressTimeController.do?exportExcels')">导出Excel</a></div>
+
+				<h2>${pressYear?if_exists}年的发稿量</h2>
+
+				<table class="table  table-bordered" id="sample_1">
+					<thead>
+
+						<tr class="">
+							<th style="width: 200px">一级栏目</th>
+							<th style="">发稿量</th>
+						</tr>
+					</thead>
+					<tbody>
+						<#if catList?exists>
+						  <#list catList as page>
+							<tr>
+								<td>
+										${page.catName}
+								</td>
+								<td>
+										${page.catCount}
+								</td>
+							</tr>
+						  </#list> 
+						</#if>
+						<tr style="background: rgba(179, 168, 168, 0.55);">
+							<th>总量</th>
+							<td>${allCount?if_exists}</td>
+						</tr>
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	//根据站点选择
+	function selectSite(){
+		var urlStr='pressTimeController.do?pressTime';
+		$.ajax({
+			type:'post',
+			url:urlStr,
+			data:$('#search_form').serialize(),
+			dataType:'text',
+			success:function(msg){
+				$('#dashboard').empty();
+				$('#dashboard').append(msg);
+			},
+			error:function(){
+				alert("load page error, page url is " + urlStr);
+			}
+		})
+	}
+	//根据年份选择
+	function changeYear(year){
+		$("#pressYear").val(year)
+		var urlStr='pressTimeController.do?pressTime';
+		$.ajax({
+			type:'post',
+			url:urlStr,
+			data:$('#search_form').serialize(),
+			dataType:'text',
+			success:function(msg){
+				$('#dashboard').empty();
+				$('#dashboard').append(msg);
+			},
+			error:function(){
+				alert("load page error, page url is " + urlStr);
+			}
+		})
+
+	}
+	function toExcel(urlStr){
+		UIToastr.info("导出时间较长请耐心等待...");
+		$.ajax({
+			url : urlStr,
+			type : 'post',
+			cache : false,
+			data:$('#search_form').serialize(),
+			success : function(result) {
+				var d = $.parseJSON(result);
+				if (d.success) {
+					var msg = d.msg;
+					if("" != msg){
+						location.href=msg;
+					}else{
+						UIToastr.error("导出失败");
+					}
+				}else{
+					UIToastr.error("导出失败");
+				}
+			}
+		});
+	}
+</script>
+</div>

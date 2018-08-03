@@ -1,0 +1,44 @@
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+	<h4 class="modal-title">可视化模板</h4>
+</div>
+<div class="modal-body">
+	<!-- BEGIN FORM-->
+	<form id="visibleTemplate_form" class="form-horizontal">
+		<input type="hidden" id="id" name="id" value="${visibleTemplate.id?if_exists}"/>
+		<#--
+		<div class="control-group">
+			<label class="control-label">模板类型（1、首页；2、栏目首页；3、栏目列表页；4、文章详情页；5、图片详情页；6、视频详情页；7、投票详情页；8、调查详情页；9、活动详情页；10、专题页）</label>
+			<div class="controls">
+				<input type="text" id="templateType" name="templateType" class="span3 form-control" data-rule-required="true" value="${visibleTemplate.templateType?if_exists}"/>
+			</div>
+		</div>
+		-->
+		<div class="control-group">
+			<label class="control-label">模板名称</label>
+			<div class="controls">
+				<input type="text" id="title" name="title" class="span3 form-control" data-rule-required="true"
+					   value="${visibleTemplate.title?if_exists}"/>
+			</div>
+		</div>
+		<#include "/cms/visibletemplate/diyCSS.html"/>
+
+		<div class="control-group">
+			<label class="control-label">备注</label>
+			<div class="controls">
+				<textarea rows="3" id="remark" name="remark" class="span3 form-control">${visibleTemplate.remark?if_exists}</textarea>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<input type="button" onclick="formSubmitModel('visibleTemplateController.do?save', 'visibleTemplate_form');" class="btn btn-primary" value="提交">
+	<input type="button" class="btn" value="关闭" data-dismiss="modal">
+</div>
+<script>
+//校验
+jQuery(document).ready(function() {   
+   App.init();
+   $("#visibleTemplate_form").myValidate();
+});
+</script>

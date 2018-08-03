@@ -1,0 +1,140 @@
+<!-- BEGIN PAGE LEVEL STYLES -->
+<link rel="stylesheet" type="text/css" href="media/css/bootstrap-fileupload.css" />
+<link rel="stylesheet" type="text/css" href="media/css/jquery.gritter.css" />
+<link rel="stylesheet" type="text/css" href="media/css/chosen.css" />
+<link rel="stylesheet" type="text/css" href="media/css/select2_metro.css" />
+<link rel="stylesheet" type="text/css" href="media/css/jquery.tagsinput.css" />
+<link rel="stylesheet" type="text/css" href="media/css/clockface.css" />
+<link rel="stylesheet" type="text/css" href="media/css/bootstrap-wysihtml5.css" />
+<link rel="stylesheet" type="text/css" href="media/css/datepicker.css" />
+<link rel="stylesheet" type="text/css" href="media/css/timepicker.css" />
+<link rel="stylesheet" type="text/css" href="media/css/colorpicker.css" />
+<link rel="stylesheet" type="text/css" href="media/css/bootstrap-toggle-buttons.css" />
+<link rel="stylesheet" type="text/css" href="media/css/daterangepicker.css" />
+<link rel="stylesheet" type="text/css" href="media/css/datetimepicker.css" />
+<link rel="stylesheet" type="text/css" href="media/css/multi-select-metro.css" />
+<link rel="stylesheet" type="text/css" href="media/css/bootstrap-modal.css" />
+<div class="row-fluid">
+<div class="span12">
+	<!-- BEGIN SAMPLE FORM PORTLET-->   
+	<div class="portlet box blue">
+		<div class="portlet-title">
+			<div class="caption"><i class="icon-reorder"></i>编辑</div>
+		</div>
+		<div class="portlet-body form">
+			<!-- BEGIN FORM-->
+			<form id="form" class="form-horizontal">
+							<div class="control-group">
+
+					<label class="control-label">分类名称</label>
+				
+					<div class="controls">
+						<input type="text" id="name" name="name" class="span6 m-wrap" value="${classify?if_exists.name}"/>
+						<span class="help-inline">填写分类名称</span>
+					</div>
+				</div>
+				<div class="control-group">
+
+					<label class="control-label">分类描述</label>
+				
+					<div class="controls">
+						<input type="text" id="info" name="info" class="span6 m-wrap" value="${classify?if_exists.info}"/>
+						<span class="help-inline">填写分类描述</span>
+					</div>
+				</div>
+				<div class="control-group">
+
+					<label class="control-label">显示顺序</label>
+				
+					<div class="controls">
+						<input type="text" id="sorts" name="sorts" class="span6 m-wrap" value="${classify?if_exists.sorts}"/>
+						<span class="help-inline">填写显示顺序</span>
+					</div>
+				</div>
+				<div class="control-group">
+
+					<label class="control-label">分类图片外链地址（宽720高400）</label>
+				
+					<div class="controls">
+						<input type="text" id="img" name="img" class="span6 m-wrap" value="${classify?if_exists.img}"/>
+						<span class="help-inline">填写分类图片外链地址（宽720高400）</span>
+					</div>
+				</div>
+				<div class="control-group">
+
+					<label class="control-label">外链网站或活动</label>
+				
+					<div class="controls">
+						<input type="text" id="url" name="url" class="span6 m-wrap" value="${classify?if_exists.url}"/>
+						<span class="help-inline">填写外链网站或活动</span>
+					</div>
+				</div>
+				<div class="control-group">
+
+					<label class="control-label">首页显示</label>
+				
+					<div class="controls">
+						<input type="text" id="status" name="status" class="span6 m-wrap" value="${classify?if_exists.status}"/>
+						<span class="help-inline">填写首页显示</span>
+					</div>
+				</div>
+				<div class="control-group">
+
+					<label class="control-label">token</label>
+				
+					<div class="controls">
+						<input type="text" id="token" name="token" class="span6 m-wrap" value="${classify?if_exists.token}"/>
+						<span class="help-inline">填写token</span>
+					</div>
+				</div>
+				<!--
+				<div class="control-group">
+					<label class="control-label">菜单等级</label>
+					<div class="controls">
+						<select name="functionLevel" id="functionLevel">
+							<option value="0">一级菜单</option>
+							<option value="1">下级菜单</option>
+						</select>
+					</div>
+				</div>
+				-->
+				<div class="form-actions">
+					<input type="hidden" id="id" name="id" value="${classify?if_exists.id}"/>
+					<input type="hidden" id="id" name="classify.id" value="${classify?if_exists.classify?if_exists.id}"/>
+					<button type="button" onclick="formSubmitModel2Div('classifyController.do?update', 'form', 'divBody', 'classifyController.do?Table&id=${selectId}');" class="btn blue">提交</button>
+					<button type="reset" class="btn" data-dismiss="modal">重置</button>                            
+				</div>
+			</form>
+			<!-- END FORM-->
+		</div>
+	</div>
+	<!-- END SAMPLE FORM PORTLET-->
+	</div>
+</div>
+
+
+
+	
+<script>
+
+
+function formSubmitModel2Div(urlStr, formName, returnUrl, selectId){
+	$.ajax({
+		type:'post',
+		url:urlStr,
+		data:$('#' + formName).serialize(),
+		success:function(msg){
+			var obj = JSON.parse(eval(msg));
+			if(obj.isSuccess){
+				$('#editModel').modal('hide');
+				alert(obj.msg);
+			}else{
+				alert("提交处理失败!");
+			}
+		},
+		error:function(){
+			alert("提交通讯失败!");
+		}
+	})
+}
+</script>

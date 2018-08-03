@@ -1,0 +1,61 @@
+<link rel="stylesheet" type="text/css" href="media/css/bootstrap-modal.css" />
+<link rel="stylesheet" type="text/css" href="media/css/search.css" />
+<div class="row-fluid">
+    <div id="menuBody"  class="span3">
+        <ul id="siteAuthority" class="ver-inline-menu tabbable margin-bottom-25">
+            <#if siteEList?exists && siteEList?size gt 0>
+                <#list siteEList as site>
+                    <li <#if site_index==0> class="active"</#if> ><a data-toggle="tab" onclick="authorityUserList('SiteAuthorityController.do?userList','${site.id}')"><i class="icon-briefcase"></i>${site.siteName?if_exists}</a> <#if site_index==0><span class="after"></span></#if></li>
+                </#list>
+            <#else>
+                <li class="active"><a href="javascript:void(0);" data-toggle="tab"><i class="icon-briefcase"></i>还没有站点</a><span class="after"></span></li>
+            </#if>
+        </ul>
+    </div>
+    <div class="span9" id="authorityUserList">
+        <#include "/lmPage/common/page.html">
+    </div>
+</div>
+
+<script>
+
+   $(document).ready(function(){
+       $("#siteAuthority li:first a").click();
+   });
+
+    function authorityUserList(urlStr,siteId){
+         $.ajax({
+            type:'post',
+            url:urlStr,
+            data:{'siteId':siteId},
+            dataType:'text',
+            success:function(msg){
+                $('#authorityUserList').empty();
+                $('#authorityUserList').append(msg);
+            },
+            error:function(){
+                lmAlert("load page error, page url is " + urlStr);
+            }
+        });
+    }
+    function removeClick(urlStr,siteId){
+        $.ajax({
+            type:'post',
+            url:urlStr,
+            data:{'siteId':siteId},
+            dataType:'text',
+            success:function(msg){
+                var obj = JSON.parse(eval(msg));
+                if(obj.isSuccess){
+                    lmAlert(obj.msg);
+                    authorityUserList(obj.toUrl,siteId);
+                }else{
+                    lmAlert(obj.msg);
+                }
+            },
+            error:function(){
+                lmAlert("load page error, page url is " + urlStr);
+            }
+        });
+    }
+</script>

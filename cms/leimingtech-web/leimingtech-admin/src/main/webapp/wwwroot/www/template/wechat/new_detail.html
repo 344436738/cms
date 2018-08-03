@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta charset="UTF-8">
+<title>${contentF.title!''}</title>
+<link rel="stylesheet" type="text/css" href="/css/h5-detail.css"/>
+<script src="/js/jquery-1.10.1.min.js"></script>
+<script>
+    $(function(){
+        //统计
+
+    })
+</script>
+</head>
+<body>
+<div  class="page-content">
+    <div  class="rich_media_area_primary">
+        <h2 class="news-title">${contentF.title!''}</h2>
+        <div class="news-list">
+            <span class="news-meta news-time">${contentF.published?string('yyyy-MM-dd')}</span>
+            <span class="news-meta news-cat">${catalogF.name!''}</span>
+        </div>
+        <div class="news-content">
+            ${articleDataF.content!''}
+        </div>
+    </div>
+</div>
+</body>
+</html>

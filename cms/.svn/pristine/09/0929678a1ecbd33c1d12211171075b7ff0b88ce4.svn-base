@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset = "utf-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+    <meta http-equiv = "Content-Type" content = "text/html; charset=UTF-8">
+    <meta name = "title" content = "可视化模板设计系统 - LMCMS">
+    <meta name = "description" content = "LMCMS! 可拖放排序在线编辑的可视化模板设计系统">
+    <meta name = "keywords" content = "可视化,布局,系统,LMCMS">
+    <title>可视化模板设计系统 - LMCMS</title>
+    <script type="text/javascript">
+        var contextpath="${contextpath}";
+        var domain="${domain}";
+    </script>
+    <!-- Le styles -->
+    <link href="${contextpath}/tree/css/demo.css" rel="stylesheet">
+    <link href="${contextpath}/tree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet">
+    <link href = "${domain}/static/css/bootstrap-combined.min.css" rel = "stylesheet">
+    <link href = "${contextpath}/cms/visibletemplate/design/css/layoutit.css" rel = "stylesheet">
+    <link href = "${domain}/static/css/base-visible.css" rel = "stylesheet">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src = "${contextpath}/cms/visibletemplate/design/js/html5shiv.js"></script>
+    <script type="text/javascript" src="${contextpath}/js/content.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel = "shortcut icon" href = "${contextpath}/cms/visibletemplate/design/img/favicon.png">
+
+    <script type = "text/javascript" src = "${contextpath}/cms/visibletemplate/design/js/jquery-2.0.0.min.js"></script>
+
+    <script type="text/javascript" src="${contextpath}/tree/js/jquery.ztree.core-3.5.min.js"></script>
+    <script type="text/javascript" src="${contextpath}/tree/js/jquery.ztree.excheck-3.5.min.js"></script>
+
+    <script type = "text/javascript" src = "${contextpath}/js/commons-2014-12-27.js"></script>
+    <!--[if lt IE 9]>
+    <script type = "text/javascript" src = "http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <![endif]-->
+    <script type = "text/javascript" src = "${contextpath}/cms/visibletemplate/design/js/bootstrap.min.js"></script>
+    <script type = "text/javascript" src = "${contextpath}/cms/visibletemplate/design/js/jquery-ui.js"></script>
+    <script type = "text/javascript" src = "${contextpath}/cms/visibletemplate/design/js/jquery.ui.touch-punch.min.js"></script>
+    <script type = "text/javascript" src = "${contextpath}/cms/visibletemplate/design/js/jquery.htmlClean.js"></script>
+    <script type = "text/javascript" src = "${contextpath}/cms/visibletemplate/design/js/scripts.js"></script>
+    <style type="text/css">
+        .diy_textarea { width: 940px; background-color: rgb(251, 251, 251); height: 400px; padding-top: 10px; padding-right: 10px; padding-left: 10px; padding-bottom: 10px; overflow: auto; font-size: 14px;margin-bottom:0px; }
+    </style>
+
+    <script type='text/javascript' src="${contextpath}/js/behave.js"></script>
+    <script src="${contextpath}/js/auto-line-number.js"></script>
+    <script type="text/javascript">
+
+        $(function (){
+            //https://github.com/jakiestfu/Behave.js
+            $(".diy_textarea").each(function (){
+                new Behave({
+                    textarea: 		this,
+                    replaceTab: 	true,
+                    softTabs: 		true,
+                    tabSize: 		4,
+                    autoOpen: 		true,
+                    overwrite: 		true,
+                    autoStrip: 		true,
+                    autoIndent: 	true,
+                    fence: false
+                });
+            });
+            /* new Behave({
+             textarea: 		$(".diy_textarea")[0],
+             replaceTab: 	true,
+             softTabs: 		true,
+             tabSize: 		4,
+             autoOpen: 		true,
+             overwrite: 		true,
+             autoStrip: 		true,
+             autoIndent: 	true,
+             fence: false
+             }); */
+
+            //http://www.jq22.com/jquery-info6677
+            $(".diy_textarea").setTextareaCount({
+                width: "30px",
+                bgColor: "#eee",
+                color: "#777",
+                display: "inline-block"
+            });
+        });
+        var template_id='${templateId?if_exists}';
+    </script>
+
+  <link rel="stylesheet" type="text/css" href="${contextpath}/plug-in/ueditor/third-party/webuploader/webuploader2.css">
+  <script type="text/javascript" src="${contextpath}/plug-in/ueditor/third-party/webuploader/webuploader.js"></script>
+  <script type="text/javascript" charset="utf-8" src="${contextpath}/plug-in/ueditor/ueditor.config.js"></script>
+  <script type="text/javascript" charset="utf-8" src="${contextpath}/plug-in/ueditor/ueditor.all.js"></script>
+  <!--建议手动加在语言，避免在ie下有时因为加载语言失败导致编辑器加载失败-->
+  <!--这里加载的语言文件会覆盖你在配置项目里添加的语言类型，比如你在配置项目里配置的是英文，这里加载的中文，那最后就是中文-->
+  <script type="text/javascript" charset="utf-8" src="${contextpath}/plug-in/ueditor/lang/zh-cn/zh-cn.js"></script>
+  <#if cssArray?exists && cssArray?size gt 0>
+    <#list cssArray as css>
+      <link href = "${domain}${css}" rel = "stylesheet">
+    </#list>
+  </#if>
+</head>
+
+<body style = "min-height: 660px; cursor: auto;" class = "edit">
+<div class = "navbar navbar-inverse navbar-fixed-top">
+  <div class = "navbar-inner">
+    <div class = "container-fluid">
+      <button data-target = ".nav-collapse" data-toggle = "collapse" class = "btn btn-navbar" type = "button"> <span class = "icon-bar"></span> <span class = "icon-bar"></span> <span class = "icon-bar"></span> </button>
+      <a class = "brand" href = "#"><img src = "${contextpath}/cms/visibletemplate/design/img/favicon.png"> 可视化布局<span class = "label">BETA</span></a>
+      <div class = "nav-collapse collapse">
+      	<ul class = "nav" id = "menu-layoutit">
+          <li class = "divider-vertical"></li>
+          <li>
+              <div class = "btn-group" data-toggle = "buttons-radio">
+                  <button type = "button" id = "edit" class = "btn btn-primary active"><i class = "icon-edit icon-white"></i>编辑
+                  </button>
+                  <button type = "button" class = "btn btn-primary" id = "devpreview"><i
+                          class = "icon-eye-close icon-white"></i>布局编辑
+                  </button>
+                  <button type = "button" class = "btn btn-primary" id = "sourcepreview"><i
+                          class = "icon-eye-open icon-white"></i>预览
+                  </button>
+              </div>
+            <div class = "btn-group">
+              <button type = "button" class = "btn btn-primary downloadModal" data-target = "#downloadModal" rel = "/build/downloadModal" role = "button" data-toggle = "modal"><i class = "icon-chevron-down icon-white"></i>下载模板</button>
+              <button type = "button" class = "btn btn-primary downloadVisibleTemplateModal" data-target = "#downloadModal" rel = "/build/downloadModal" role = "button" data-toggle = "modal"><i class = "icon-chevron-down icon-white"></i>下载可视化模板</button>
+              <button class = "btn btn-primary" onclick="submitTemplate()" ><i class = "icon-share icon-white"></i>保存</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <!--/.nav-collapse -->
+    </div>
+  </div>
+</div>
+<div class = "container-fluid">
+  <div class = "row-fluid">
+    <div class = "">
+      <div class = "sidebar-nav">
+        <ul class = "nav nav-list accordion-group">
+          <li class = "nav-header">
+            <div class = "pull-right popover-info"><i class = "icon-question-sign "></i>
+              <div class = "popover fade right">
+                <div class = "arrow"></div>
+                <h3 class = "popover-title">功能</h3>
+                <div class = "popover-content">在这里设置你的栅格布局, 栅格总数默认为12, 用空格分割每列的栅格值, 如果您需要了解更多信息，请访问<a target = "_blank" href = "http://twitter.github.io/bootstrap/scaffolding.html#gridSystem">Bootstrap栅格系统.</a></div>
+              </div>
+            </div>
+            <i class = "icon-plus icon-white"></i> 布局设置 </li>
+          <li style = "display: list-item;" class = "rows" id = "estRows">
+            <div class = "lyrow ui-draggable"> <a href = "#close" class = "remove label label-important"><i class = "icon-remove icon-white"></i>删除</a> <span class = "drag label"><i class = "icon-move"></i>拖动</span>
+              <div class = "preview">
+                <input value = "12" type = "text">
+              </div>
+              <div class = "view">
+                <div class = "row-fluid clearfix">
+                  <div class = "span12 column"></div>
+                </div>
+              </div>
+            </div>
+            <div class = "lyrow ui-draggable"> <a href = "#close" class = "remove label label-important"><i class = "icon-remove icon-white"></i>删除</a> <span class = "drag label"><i class = "icon-move"></i>拖动</span>
+              <div class = "preview">
+                <input value = "6 6" type = "text">
+              </div>
+              <div class = "view">
+                <div class = "row-fluid clearfix">
+                  <div class = "span6 column"></div>
+                  <div class = "span6 column"></div>
+                </div>
+              </div>
+            </div>
+            <div class = "lyrow ui-draggable"> <a href = "#close" class = "remove label label-important"><i class = "icon-remove icon-white"></i>删除</a> <span class = "drag label"><i class = "icon-move"></i>拖动</span>
+              <div class = "preview">
+                <input value = "8 4" type = "text">
+              </div>
+              <div class = "view">
+                <div class = "row-fluid clearfix">
+                  <div class = "span8 column"></div>
+                  <div class = "span4 column"></div>
+                </div>
+              </div>
+            </div>
+            <div class = "lyrow ui-draggable"> <a href = "#close" class = "remove label label-important"><i class = "icon-remove icon-white"></i>删除</a> <span class = "drag label"><i class = "icon-move"></i>拖动</span>
+              <div class = "preview">
+                <input value = "4 4 4" type = "text">
+              </div>
+              <div class = "view">
+                <div class = "row-fluid clearfix">
+                  <div class = "span4 column"></div>
+                  <div class = "span4 column"></div>
+                  <div class = "span4 column"></div>
+                </div>
+              </div>
+            </div>
+            <div class = "lyrow ui-draggable"> <a href = "#close" class = "remove label label-important"><i class = "icon-remove icon-white"></i>删除</a> <span class = "drag label"><i class = "icon-move"></i>拖动</span>
+              <div class = "preview">
+                <input value = "2 6 4" type = "text">
+              </div>
+              <div class = "view">
+                <div class = "row-fluid clearfix">
+                  <div class = "span2 column"></div>
+                  <div class = "span6 column"></div>
+                  <div class = "span4 column"></div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <ul class = "nav nav-list accordion-group">
+          <li class = "nav-header"><i class = "icon-plus icon-white"></i> LMCMS 组件库</li>
+          <li style = "display: none;" class = "boxes mute" id = "elmComm">
+            <#if visibleTemplateModuleList?exists && visibleTemplateModuleList?size gt 0>
+              <#list visibleTemplateModuleList as demo>
+                <div class = "box box-element ui-draggable lmcms_module_new ${demo.moduleKey!''}" moduleKey="${demo.moduleKey!''}">
+                  <a href = "#close" class = "remove label label-important"><i class = "icon-remove icon-white"></i>删除</a>
+                  <span class = "drag label"><i class = "icon-move"></i>拖动</span>
+                <span class = "configuration">
+
+                </span>
+                  <div class = "preview">${demo.moduleName!''}</div>
+                  <div class = "view">
+                    ${demo.demo!''}
+                  </div>
+                </div>
+              </#list>
+            </#if>
+          </li>
+        </ul>
+        <!--<ul class = "nav nav-list accordion-group">
+          <li class = "nav-header"><i class = "icon-plus icon-white"></i> 组件
+            <div class = "pull-right popover-info"><i class = "icon-question-sign "></i>
+              <div class = "popover fade right">
+                <div class = "arrow"></div>
+                <h3 class = "popover-title">帮助</h3>
+                <div class = "popover-content">拖放组件到布局框内. 拖入后你可以设置组件样式. 查看这里获取更多帮助 <a target = "_blank" href = "http://twitter.github.io/bootstrap/components.html">Components.</a></div>
+              </div>
+            </div>
+          </li>
+          <li style = "display: none;" class = "boxes" id = "elmComponents">
+            <div class = "box box-element ui-draggable"> <a href = "#close" class = "remove label label-important"><i class = "icon-remove icon-white"></i>删除</a> <span class = "drag label"><i class = "icon-move"></i>拖动</span>
+              <span class = "configuration"><button type = "button" class = "btn btn-mini" data-target = "#editorModal" role = "button" data-toggle = "modal">编辑</button></span>
+              <div class = "preview">面包导航</div>
+              <div class = "view" style="margin-bottom: 30px;">
+                <ul class = "breadcrumb" contenteditable = "true">
+                  <li><a href = "#">主页</a> <span class = "divider">/</span></li>
+                  <li><a href = "#">类目</a> <span class = "divider">/</span></li>
+                  <li class = "active">主题</li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>-->
+        <!--<ul class = "nav nav-list accordion-group">
+          <li class = "nav-header"><i class = "icon-plus icon-white"></i> 交互组件 <span class = "label label-important">NEW!</span>
+            <div class = "pull-right popover-info"><i class = "icon-question-sign "></i>
+              <div class = "popover fade right">
+                <div class = "arrow"></div>
+                <h3 class = "popover-title">帮助</h3>
+                <div class = "popover-content">拖放组件到布局容器. 拖入后, 你可以配置显示样式. 如果有任何疑问可访问 <a target = "_blank" href = "http://twitter.github.io/bootstrap/javascript.html">JavaScript.</a></div>
+              </div>
+            </div>
+          </li>
+          <li style = "display: none;" class = "boxes mute" id = "elmJS">
+            <div class = "box box-element ui-draggable"> <a href = "#close" class = "remove label label-important"><i class = "icon-remove icon-white"></i>删除</a> <span class = "drag label"><i class = "icon-move"></i>拖动</span>
+              <span class = "configuration"><button type = "button" class = "btn btn-mini" data-target = "#editorModal" role = "button" data-toggle = "modal">编辑</button></span>
+              <div class = "preview">轮换图</div>
+              <div class = "view">
+                <div class = "carousel slide" id = "myCarousel">
+                  <ol class = "carousel-indicators">
+                    <li class = "active" data-slide-to = "0" data-target = "#myCarousel"></li>
+                    <li data-slide-to = "1" data-target = "#myCarousel" class = ""></li>
+                    <li data-slide-to = "2" data-target = "#myCarousel" class = ""></li>
+                  </ol>
+                  <div class = "carousel-inner">
+                    <div class = "item active"> <img alt = "" src = "${contextpath}/cms/visibletemplate/design/img/1.jpg">
+                      <div class = "carousel-caption" contenteditable = "true">
+                        <h4>棒球</h4>
+                        <p>棒球运动是一种以棒打球为主要特点，集体性、对抗性很强的球类运动项目，在美国、日本尤为盛行。</p>
+                      </div>
+                    </div>
+                    <div class = "item"> <img alt = "" src = "${contextpath}/cms/visibletemplate/design/img/2.jpg">
+                      <div class = "carousel-caption" contenteditable = "true">
+                        <h4>冲浪</h4>
+                        <p>冲浪是以海浪为动力，利用自身的高超技巧和平衡能力，搏击海浪的一项运动。运动员站立在冲浪板上，或利用腹板、跪板、充气的橡皮垫、划艇、皮艇等驾驭海浪的一项水上运动。</p>
+                      </div>
+                    </div>
+                    <div class = "item"> <img alt = "" src = "${contextpath}/cms/visibletemplate/design/img/3.jpg">
+                      <div class = "carousel-caption" contenteditable = "true">
+                        <h4>自行车</h4>
+                        <p>以自行车为工具比赛骑行速度的体育运动。1896年第一届奥林匹克运动会上被列为正式比赛项目。环法赛为最著名的世界自行车锦标赛。</p>
+                      </div>
+                    </div>
+                  </div>
+                  <a data-slide = "prev" href = "#myCarousel" class = "left carousel-control">‹</a> <a data-slide = "next" href = "#myCarousel" class = "right carousel-control">›</a> </div>
+              </div>
+            </div>
+          </li>
+        </ul>-->
+      </div>
+    </div>
+    <!--/span-->
+    <div style = "min-height: 590px;" class = "demo ui-sortable">
+    </div>
+    <!--/span-->
+    <div id = "download-layout">
+      <#if visibleTemplate!=''>
+        ${visibleTemplate!''}
+        <#else>
+          <div class = "container-fluid"></div>
+      </#if>
+    </div>
+  </div>
+  <!--/row-->
+</div>
+<!--/.fluid-container-->
+<div class = "modal hide fade"  data-keyboard="false"  data-backdrop="static" role = "dialog" id = "editorModal" style="width:720px;">
+  <div class = "modal-header">
+    <h3>编辑</h3>
+  </div>
+  <div class = "modal-body">
+    <p>
+      <script id="contenteditor" name="contenteditor" type="text/plain" style="height:200px;width:100%;">
+      </script>
+    </p>
+  </div>
+  <div class = "modal-footer">
+    <a id = "savecontent" class = "btn btn-primary" data-dismiss = "modal">保存</a>
+    <a class = "btn closeCKEditor" data-dismiss = "modal">关闭</a>
+  </div>
+</div>
+
+<div class = "modal hide fade" role = "dialog" style="width:1000px;margin-left:-500px;" id = "editTemplate">
+  <div class = "modal-header">
+    <h3>源码编辑</h3>
+  </div>
+  <div class = "modal-body" style="max-height:inherit;">
+    <!--提示<p></p>-->
+    <p>
+      <form id="moduleForm">
+      <input type="hidden" name="id" id="id" value=""/>
+      <input type="hidden" name="moduleKey" value=""/>
+      <textarea class="diy_textarea" name="template"></textarea>
+      </form>
+    </p>
+  </div>
+  <div class = "modal-footer">
+      <a class = "btn" href="javascript:submitTemplateModule()">提交</a>
+      <a class = "btn" onclick="closeTemplateModule()" data-dismiss = "modal">关闭</a>
+  </div>
+</div>
+
+<div class = "modal hide fade" role = "dialog" style="width:1000px;margin-left:-500px;" id = "downloadModal">
+  <div class = "modal-header"> <a class = "close" data-dismiss = "modal">×</a>
+    <h3>下载</h3>
+  </div>
+  <div class = "modal-body" style="max-height:inherit;">
+    <p>
+      <textarea class="diy_textarea"></textarea>
+    </p>
+  </div>
+  <div class = "modal-footer"> <a class = "btn" data-dismiss = "modal">关闭</a> </div>
+</div>
+
+<div class = "modal hide fade" tabindex="-1" data-backdrop="static" data-focus-on="input:first" role = "dialog" style="width:500px;" id = "content_param_modal">
+  <div class = "modal-header">
+    <h3>编辑模块</h3>
+  </div>
+  <div class = "modal-body form-horizontal" style="max-height:inherit;overflow-y: visible;">
+    <form id="paramForm">
+      <div class="row-fluid">
+        <div class="control-group">
+          <label class="control-label">栏目</label>
+          <div class="controls" style="position: relative;">
+            <input type="text" id="catName" readonly class="span8 form-control" value="" onclick="showMenu('menuContent','catName');"/>
+            <input type="hidden" id="catId" name="catId"/>
+            <input type="hidden" id="moduleKey" name="moduleKey" value="">
+            <input type="hidden" id="moduleId" name="moduleId" value="">
+            <input type="hidden" id="paramsId" name="paramsId" value="">
+            <div id="menuContent" class="menuContent" style="display:none; position: absolute;">
+              <ul id="treeDemo" class="ztree" style="margin-top:0; width:180px; height: 300px;"></ul>
+            </div>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">缩略图</label>
+          <div class="controls">
+            <label class="radio">
+              <input type="radio" name="image" value="0" id="imageFalse"/>否
+            </label>
+            <label class="radio">
+              <input type="radio" name="image" value="1" id="imageTrue"/>是
+            </label>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">条数</label>
+          <div class="controls">
+            <input type="number" id="count" name="count" class="span3 form-control" value="10"/>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </div>
+  <div class = "modal-footer">
+    <a class = "btn" href="javascript:saveContentParam()">保存</a>
+    <a class = "btn" data-dismiss = "modal" onclick="closeParamModal()">关闭</a>
+  </div>
+</div>
+
+<!--分页表单-->
+<div class = "modal hide fade" tabindex="-1" data-backdrop="static" data-focus-on="input:first" role = "dialog" style="width:500px;" id = "pagination_param_modal">
+  <div class = "modal-header">
+    <h3>编辑模块</h3>
+  </div>
+  <div class = "modal-body form-horizontal" style="max-height:inherit;overflow-y: visible;">
+    <form id="paginationParamForm">
+      <div class="row-fluid">
+        <div class="control-group">
+          <label class="control-label">选择演示栏目</label>
+          <div class="controls" style="position: relative;">
+            <input type="text" id="paginationCatName" readonly class="span8 form-control" value="" onclick="showMenu('paginationCatContent','paginationCatName');"/>
+            <input type="hidden" id="paginationCatId" name="catId"/>
+            <input type="hidden" id="paginationModuleKey" name="moduleKey" value="">
+            <input type="hidden" id="paginationModuleId" name="moduleId" value="">
+            <input type="hidden" id="paginationParamsId" name="paramsId" value="">
+            <div id="paginationCatContent" class="menuContent" style="display:none; position: absolute;">
+              <ul id="paginationCatTree" class="ztree" style="margin-top:0; width:180px; height: 300px;"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class = "modal-footer">
+    <a class = "btn" href="javascript:savePaginationParam()">保存</a>
+    <a class = "btn" data-dismiss = "modal" onclick="closeParamModal()">关闭</a>
+  </div>
+</div>
+
+<div class="modal hide fade" data-keyboard="false" tabindex="-1" data-backdrop="static" data-focus-on="input:first"
+     role="dialog" style="width:600px;" id="image_param_modal">
+  <div class="modal-header">
+    <h3>编辑模块</h3>
+  </div>
+  <div class="modal-body form-horizontal" style="max-height:inherit;overflow-y: visible;">
+    <form id="imageParamForm">
+      <div class="row-fluid">
+        <div class="control-group">
+          <label class="control-label">图片：</label>
+          <div class="controls">
+            <input type="text" id="imageUrl" name="imageUrl"/>
+            <input type="hidden" id="imageModuleId" name="imageModuleId"/>
+            <input type="hidden" id="imageParamsId" name="imageParamsId"/>
+            <a class="btn" style="padding:0px !important;width:90px;height: 30px;" id="uploadImage">上传图片</a>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">大小：</label>
+          <div class="controls">
+            <input type="text" class="span3" id="imageWidth" name="imageWidth"/>×
+            <input type="text" class="span3" id="imageHeight" name="imageHeight"/>px
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">描述：</label>
+          <div class="controls">
+            <input type="text" id="imageDescription" name="imageDescription"/>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">链接：</label>
+          <div class="controls">
+            <input type="text" id="linkUrl" name="linkUrl"/>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label">新窗口打开：</label>
+          <div class="controls">
+            <label class="checkbox">
+              <input type="checkbox" name="blank" value="1"/>
+            </label>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <a class="btn" href="javascript:saveImageParam()">保存</a>
+    <a class="btn" data-dismiss="modal" onclick="closeImageParamModal()">关闭</a>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+    var initUploadImage = function () {
+
+        if($("#uploadImage").children().length>0){
+          return ;
+        }
+        //图片上传
+        var uploadImage = WebUploader.create({
+            // 选完文件后，是否自动上传。
+            auto: true,
+            // swf文件路径
+            swf: 'plug-in/ueditor/third-party/webuploader/Uploader.swf',
+            // 文件接收服务端。
+            server: '${contextpath}/controller.jsp?action=uploadimage',
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: '#uploadImage',
+            // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+            resize: false,
+            // 只允许选择图片文件。
+            accept: {
+                title: 'Images',
+                extensions: 'gif,jpg,jpeg,bmp,png',
+                mimeTypes: 'image/gif,image/jpg,image/jpeg,image/bmp,image/png'
+            }
+        });
+
+        //当有文件添加进来的时候
+        uploadImage.on('uploadSuccess', function (file, Object) {
+            $("#imageUrl").val(Object.url);
+        });
+    }
+</script>
+
+<!--导航组件-->
+<div class="modal hide fade" data-keyboard="false" tabindex="-1" data-backdrop="static" data-focus-on="input:first"
+     role="dialog" style="width:500px;" id="nav_param_modal">
+  <div class="modal-header">
+    <h3>编辑导航</h3>
+  </div>
+  <div class="modal-body">
+          <div class="control-group">
+              <div class="controls" style="position: relative;">
+                  <input type="text" style="text-align:center;margin-left:45px;margin-top: 10px;" id="navCatName" readonly  onclick="showMenu('navMenuContent','navCatName');"
+                          value="-----选择栏目-----" />
+                  <a class="btn" href="javascript:addNavParam()">加入</a>
+                  <div id="navMenuContent" class="menuContent" style="display:none; position: absolute;">
+                      <ul id="navTreeDemo" class="ztree" style="margin-top: 10px;width: 200px;height: 300px;margin-left: 47px;"></ul>
+                  </div>
+              </div>
+          </div>
+          <hr>
+        <div class="row-fluid hide navDemo">
+          <div class="span11">
+            <div class="control-group">
+              <div class="controls">
+                <span class="text">标题：</span>
+                <input type="hidden" id="navTitleId" value="">
+                <input type="hidden" name="navParamsId"/>
+                <input type="text" name="navTitle" class="span10" style="margin-bottom: 0px;" value=""/>
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="controls">
+                <span class="text">链接：</span>
+                <input type="text" name="linkUrl" class="span10" style="margin-bottom: 0px;" value=""/>
+              </div>
+            </div>
+            <div class="control-group">
+              <div class="controls">
+                <label class="checkbox" style="margin-left:50px;">
+                  <input type="checkbox" name="blank" value="0" onclick="this.value=(this.value==0)?1:0" />
+                  新窗口打开
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="span1" style="text-align:center;">
+            <span style="margin-top:7px;color:red;display:block;" class="navNum">1</span>
+            <i class="icon-arrow-up upNav" title="上移" style="cursor: pointer;margin-top:7px;"></i>
+            <i class="icon-arrow-down downNav" title="下移" style="cursor: pointer;margin-top:7px;"></i>
+            <i class="icon-remove removeNav" title="移除" style="cursor: pointer;margin-top:7px;"></i>
+            <i class="icon-plus addNav" class="插入" style="cursor: pointer;margin-top:7px;"></i>
+          </div>
+          <hr style="clear: both"/>
+        </div>
+      <form id="navParamForm" style="margin-bottom: 0px;">
+          <input type="hidden" id="listCount">
+          <input type="hidden" id="navModuleId" name="navModuleId"/>
+          <input type="hidden" id="navCatId" name="navCatId"/>
+     </form>
+  </div>
+  <div class="modal-footer">
+    <a class="btn" href="javascript:saveNavParam()">保存</a>
+    <a class="btn" data-dismiss="modal" onclick="closeNavParamModal()">关闭</a>
+  </div>
+</div>
+<!-- 单篇文章组件 -->
+<div class = "modal hide fade " tabindex="-1" data-backdrop="static" data-focus-on="input:first" role = "dialog" style="width:800px;" id = "embedContent_param_modal">
+
+</div >
+
+<!-- 分页列表组件 -->
+<div class="modal hide fade" data-keyboard="false" tabindex="-1" data-backdrop="static" data-focus-on="input:first"
+     role="dialog" style="width:500px;" id="contentList_param_modal">
+    <div class = "modal-header">
+        <h3>编辑模块</h3>
+    </div>
+    <div class = "modal-body form-horizontal" style="max-height:inherit;overflow-y: visible;">
+        <form id="contentListForm">
+            <div class="row-fluid">
+                <div class="control-group">
+                    <label class="control-label">选择栏目</label>
+                    <div class="controls" style="position: relative;">
+                        <input type="text" id="contentListCatName" readonly class="span8 form-control" value="" onclick="showMenu('contentListCatContent','contentListCatName');"/>
+                        <input type="hidden" id="contentListCatId" name="catId"/>
+                        <input type="hidden" id="contentListModuleKey" name="moduleKey" value="">
+                        <input type="hidden" id="contentListModuleId" name="moduleId" value="">
+                        <input type="hidden" id="contentListParamsId" name="paramId" value="">
+                        <div id="contentListCatContent" class="menuContent" style="display:none; position: absolute;">
+                            <ul id="contentListCatTree" class="ztree" style="margin-top:0; width:180px; height: 300px;"></ul>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="contentListCount" name="count" value=""/>
+            </div>
+        </form>
+    </div>
+    <div class = "modal-footer">
+        <a class = "btn" href="javascript:saveContentListParam()">保存</a>
+        <a class = "btn" data-dismiss = "modal" onclick="closeContentListParamModal()">关闭</a>
+    </div>
+</div>
+<div style = "text-align:center;">
+<p><a href = "http://www.leimingtech.com/" target = "_blank">北京雷铭智信科技有限公司 提供技术支持</a></p>
+</div>
+
+</body>
+</html>

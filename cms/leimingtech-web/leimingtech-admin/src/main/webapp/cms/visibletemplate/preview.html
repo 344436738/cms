@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+		<title>预览可视化模板</title>
+		<script type="text/javascript">
+	        var contextpath="${contextpath}";
+	    </script>
+		<link href = "${domain}/static/css/bootstrap-combined.min.css" rel = "stylesheet">
+		<link href = "${domain}/static/css/base-visible.css" rel = "stylesheet">
+		<script type = "text/javascript" src = "${domain}/static/js/jquery-2.0.0.min.js"></script>
+		<#if cssArray?exists && cssArray?size gt 0>
+			<#list cssArray as css>
+				<link href = "${domain}${css}" rel = "stylesheet">
+			</#list>
+		</#if>
+	</head>
+	<body style="margin-left: auto;">
+		${view!''}
+	</body>
+</html>

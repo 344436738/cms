@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:line-height="http://www.w3.org/1999/xhtml">
+<head>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="${domain}/css/list.css" rel="stylesheet" type="text/css" />
+    <!--<link href="/css/style.css" rel="stylesheet" type="text/css" />-->
+    <!--<link href="/css/global.css" rel="stylesheet" type="text/css" />-->
+    <!--&lt;!&ndash;一下样式对登录注册按钮有冲突&ndash;&gt;-->
+	
+    <link href="${domain}/css/main.css" rel="stylesheet" type="text/css" />
+    <link href="${domain}/css/top.css" rel="stylesheet" type="text/css" />
+    <link href="${domain}/css/view.css" rel="stylesheet" type="text/css" />
+    <link href="${domain}/css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="${domain}/${contextpath}/media/image/favicon.ico" />
+
+    <link href="${domain}/${contextpath}/plug-in/bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css" />
+
+    
+    
+    <script src="${domain}/${contextpath}/media/js/jquery-1.10.1.min.js"></script>
+    
+    <script type="text/javascript" src="${domain}/${contextpath}/media/js/bootstrap.min.js"></script>
+    <!--评论 相关操作的js-->
+    <script type="text/javascript" src="${domain}/${contextpath}/member/js/comment/comment.js"></script>
+	<title>${content.title}</title>
+</head>
+<body style="background: white">
+<#include "wwwroot/${sitePath}/template/pc/section/secondMenu.html">
+    <div class="s">
+        <div class="logo"><a href="/" target="_blank"><img src="${domain}/images/newimg/content_logo.png" alt="华东网—华东门户｜华东最大的新闻综合门户" width="129" height="27" /></a></div>
+        <div class="wei">
+            <a href="${domain}">首页</a>
+            > &nbsp;<a href="${domain}/${catUrl}" class="act">${catName}</a>
+        </div>
+
+        <div class="so">
+            <form action="/e/search/index.php" method="post" id="unify_search">
+                <input type="hidden" name="show" value="title" />
+                <input type="hidden" name="tempid" value="1" />
+                <div class="div_search">
+                    <table align="right" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td width="188" height="41"><input id="keyword4"  value="${keyword?if_exists}" name="keyword" autocomplete="off" style="margin-left:4px;height:22px"/></td>
+                            <td><a href="javaScript:void(0)"  onclick="toSearch4('${domain}/${contextpath}/front/frontController.do?search');"><img src="/images/newimgsearch_icon.png" width="56" height="24" onmouseover="changepic(this,'/images/newimgsearch_icon.png')" onmouseout="changepic(this,'/images/newimgsearch_icon.png')" /></a></td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+        </div>
+    </div>
+        <div class="content2">
+            <div class="content2_left">
+                <div  style="margin-top: 20px;margin-left: 13%;">
+
+                    <div class="content-h1">
+                        <a  href="${domain}/${content.url}">${content.title}</a>
+                    </div>
+
+                    <!---- 评论框---->
+
+                    <div id="SOHUCS">
+                        <form id="addComment">
+                            <input type="hidden" name="contentid" value="${content.id}" />
+                            <textarea tabindex="1" id="commentcontent" name="content" class="comment-text" onkeyup="javascript:chkmaxsms(this,'150')" placeholder="(请勿超过150字)"></textarea>
+                        </form>
+                        <div class="commtSub np-reply-box-footer comment-div"  id="p_login_btn">
+                            <div class="submitBtn">
+                                <a href="javascript:void(0)" class="np-btn np-btn-submit" onclick="addComment()" >发表评论</a>
+                            </div>
+
+                        </div>
+                    </div>
+                    <h4  class="np-active" id="allCommentCount"></h4>
+
+
+                    <div class="allComments">
+                        <ul class="post-list np-comment-list" id="ul_comment_list">
+                        </ul>
+                        <!-- 模态框（Modal） -->
+                        <div id="myModel" class="modal  fade " tabindex="-1" data-backdrop="static" data-focus-on="input:first"></div>
+                        <!--分页条-->
+                        <br/>
+                        <div id="loadMore" class="np-load-more loadMore" style="display:block;width: 560px;">
+                            <span onclick="loadComment('${domain}/${contextpath}/front/commentFrontController.do?commentPageList&contentid=${content.id?if_exists}','ul_comment_list')">加载更多</span>
+                            <em style="display:none" class="np-load-more-loading">没有更多了</em>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right1">
+                <div class="right_ad1">
+                    <!--广告 -->
+                    <img src="/images/newimg/ad1.jpg" border="0">
+                    <!--广告 -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="h20"></div>
+    <div class="footer">
+        <#include "wwwroot/${sitePath}/template/pc/section/footer.html"><!-- 页脚 -->
+    </div>
+</body>
+<script type="text/javascript">
+    //需要在本页面定义两个变量 以便comment.js中的方法使用
+    var contextpath='${contextpath}';
+    var contentId='${content.id}';
+    var domain = '${domain}';
+    var siteId = '${site.id}';
+    var frontpath = '${frontpath}';
+</script>
+</html>
+

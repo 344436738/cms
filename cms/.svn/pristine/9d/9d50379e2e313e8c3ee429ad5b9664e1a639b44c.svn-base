@@ -1,0 +1,33 @@
+.page-content{
+    margin: 0;padding: 0
+}
+.rich_media_area_primary{
+    padding: 20px 15px 15px;
+    background-color: #fff;
+}
+.news-title{
+    margin-bottom: 10px;
+    line-height: 1.4;
+    font-weight: bold;
+    font-size: 24px;
+}
+.news-list{
+    margin-bottom: 20px;
+    line-height: 20px;
+    font-size: 0;
+}
+.news-time{
+    color: #8c8c8c;
+}
+.news-meta{
+    vertical-align: middle;
+    margin-right: 8px;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+.news-cat{
+    color: #607fa6;
+}
+.news-content{
+    text-align: center;
+}

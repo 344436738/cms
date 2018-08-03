@@ -1,0 +1,152 @@
+
+    <div class="condition">
+        <span class="spanone">筛选条件::</span>
+            <span style="margin-left: 100px;font-weight:bold;">站点:</span>
+            <select id="siteIdList" name="siteId">
+                <#if siteEntityList?exists>
+                    <#list siteEntityList as siteE>
+                        <option value="${siteE.id}" <#if siteId == '${siteE.id}'>selected</#if>>${siteE.siteName}</option>
+                    </#list>
+                </#if>
+            </select>
+            <span style="margin-left: 100px;font-weight:bold;">栏目:</span>
+            <select id="catIdList" name="catId" style="margin-bottom: 20px;">
+                <#if catEntityList?exists>
+                    <option value="">---选择栏目---</option>
+                    <#list catEntityList as catE>
+                        <option value="${catE.id}" <#if catId == '${catE.id}'>selected</#if>>${catE.name}</option>
+                    </#list>
+                    <#else>
+                        <option>---选择栏目---</option>
+                </#if>
+            </select>
+    </div>
+    <hr>
+
+    <div class="massive">
+        <div class="massive_pv">
+            <div class="character_pv">
+                <p align=left class="p_flag" style="font-size:18px;">PV:</p>
+                <p align=center class="p_figure">${statsParments.pv}</p>
+            </div>
+            <div class="character_uv">
+                <p align=left class="p_flag" style="font-size:18px;">UV:</p>
+                <p align=center class="p_figure">${statsParments.uv}</p>
+            </div>
+            <div class="character_ip">
+                <p align=left class="p_flag" style="font-size:21px;">IP:</p>
+                <p align=center class="p_figure" style="margin-left: 50px;">${statsParments.ip}</p>
+            </div>
+            <div class="massive_title">
+                <span>全部</span>
+            </div>
+        </div>
+
+        <div class="massive_pv">
+            <div class="character_pv">
+                <p align=left class="p_flag" style="font-size:18px;">PV:</p>
+                <p align=center class="p_figure">${statsParments.dayPv}</p>
+            </div>
+            <div class="character_uv">
+                <p align=left class="p_flag" style="font-size:18px;">UV:</p>
+                <p align=center class="p_figure">${statsParments.dayUv}</p>
+            </div>
+            <div class="character_ip">
+                <p align=left class="p_flag" style="font-size:21px;">IP:</p>
+                <p align=center class="p_figure" style="margin-left: 50px;">${statsParments.dayIp}</p>
+            </div>
+            <div class="massive_title">
+                <span>今日</span>
+            </div>
+        </div>
+
+        <div class="massive_pv">
+            <div class="character_pv">
+                <p align=left class="p_flag" style="font-size:18px;">PV:</p>
+                <p align=center class="p_figure">${statsParments.weekPv}</p>
+            </div>
+            <div class="character_uv">
+                <p align=left class="p_flag" style="font-size:18px;">UV:</p>
+                <p align=center class="p_figure">${statsParments.weekPv}</p>
+            </div>
+            <div class="character_ip">
+                <p align=left class="p_flag" style="font-size:21px;">IP:</p>
+                <p align=center class="p_figure" style="margin-left: 50px;">${statsParments.weekIp}</p>
+            </div>
+            <div class="massive_title">
+                <span>本周</span>
+            </div>
+        </div>
+
+        <div class="massive_pv">
+            <div class="character_pv">
+                <p align=left class="p_flag" style="font-size:18px;">PV:</p>
+                <p align=center class="p_figure">${statsParments.monthPv}</p>
+            </div>
+            <div class="character_uv">
+                <p align=left class="p_flag" style="font-size:18px;">UV:</p>
+                <p align=center class="p_figure">${statsParments.monthPv}</p>
+            </div>
+            <div class="character_ip">
+                <p align=left class="p_flag" style="font-size:21px;">IP:</p>
+                <p align=center class="p_figure" style="margin-left: 50px;">${statsParments.montIip}</p>
+            </div>
+            <div class="massive_title">
+                <span>本月</span>
+            </div>
+        </div>
+
+        <div class="massive_pv">
+            <div class="character_pv">
+                <p align=left class="p_flag" style="font-size:18px;">PV:</p>
+                <p align=center class="p_figure">${statsParments.quarterPv}</p>
+            </div>
+            <div class="character_uv">
+                <p align=left class="p_flag" style="font-size:18px;">UV:</p>
+                <p align=center class="p_figure">${statsParments.quarterUv}</p>
+            </div>
+            <div class="character_ip">
+                <p align=left class="p_flag" style="font-size:21px;">IP:</p>
+                <p align=center class="p_figure" style="margin-left: 50px;">${statsParments.quarterIp}</p>
+            </div>
+            <div class="massive_title">
+                <span>本季度</span>
+            </div>
+        </div>
+
+        <div class="massive_pv">
+            <div class="character_pv">
+                <p align=left class="p_flag" style="font-size:18px;">PV:</p>
+                <p align=center class="p_figure">${statsParments.halfYearPv}</p>
+            </div>
+            <div class="character_uv">
+                <p align=left class="p_flag" style="font-size:18px;">UV:</p>
+                <p align=center class="p_figure">${statsParments.halfYearUv}</p>
+            </div>
+            <div class="character_ip">
+                <p align=left class="p_flag" style="font-size:21px;">IP:</p>
+                <p align=center class="p_figure" style="margin-left: 50px;">${statsParments.halfYearIp}</p>
+            </div>
+            <div class="massive_title">
+                <span>半年</span>
+            </div>
+        </div>
+
+        <div class="massive_pv">
+            <div class="character_pv">
+                <p align=left class="p_flag" style="font-size:18px;">PV:</p>
+                <p align=center class="p_figure">${statsParments.yrarPv}</p>
+            </div>
+            <div class="character_uv">
+                <p align=left class="p_flag" style="font-size:18px;">UV:</p>
+                <p align=center class="p_figure">${statsParments.yrarUv}</p>
+            </div>
+            <div class="character_ip">
+                <p align=left class="p_flag" style="font-size:21px;">IP:</p>
+                <p align=center class="p_figure" style="margin-left: 50px;">${statsParments.yrarIp}</p>
+            </div>
+            <div class="massive_title">
+                <span>本年</span>
+            </div>
+        </div>
+    </div>

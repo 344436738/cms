@@ -1,0 +1,103 @@
+<style>
+.diy_textarea { width: 950px; background-color: rgb(251, 251, 251); height: 300px; padding-top: 10px; padding-right: 10px; padding-left: 10px; padding-bottom: 10px; overflow: auto; font-size: 14px; }
+</style>
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+	<h4 class="modal-title">可视化模板组件配置</h4>
+</div>
+<div class="modal-body">
+	<!-- BEGIN FORM-->
+	<form id="visibleTemplateModule_form">
+		<input type="hidden" id="id" name="id" value="${visibleTemplateModule.id?if_exists}"/>
+		<div class="row-fluid">
+			<div class="span6">
+				<div class="control-group form-horizontal">
+					<label class="control-label">名称</label>
+					<div class="controls">
+						<input type="text" id="moduleName" name="moduleName" class="span10 form-control" data-rule-required="true" value="${visibleTemplateModule.moduleName?if_exists}"/>
+					</div>
+				</div>
+			</div>
+			<div class="span6">
+				<div class="control-group form-horizontal">
+					<label class="control-label">组件键值，唯一标识</label>
+					<div class="controls">
+						<input type="text" id="moduleKey" name="moduleKey" class="span10 form-control" data-rule-required="true" value="${visibleTemplateModule.moduleKey?if_exists}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="control-group">
+				<label class="control-label">模板代码</label>
+				<div class="controls">
+					<textarea id="template" name="template" class="diy_textarea">${visibleTemplateModule.template?if_exists}</textarea>
+				</div>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="control-group">
+				<label class="control-label">示例效果代码</label>
+				<div class="controls">
+					<textarea id="demo" name="demo" class="diy_textarea">${visibleTemplateModule.demo?if_exists}</textarea>
+				</div>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="control-group">
+				<label class="control-label">操作功能代码</label>
+				<div class="controls">
+					<textarea id="controllerCode" name="controllerCode" class="diy_textarea">${visibleTemplateModule.controllerCode?if_exists}</textarea>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<input type="button" onclick="formSubmitModel('visibleTemplateModuleController.do?save', 'visibleTemplateModule_form');" class="btn btn-primary" value="提交">
+	<input type="button" class="btn" value="关闭" data-dismiss="modal">
+</div>
+<script type='text/javascript' src="js/behave.js"></script>
+<script src="js/auto-line-number.js"></script>
+<script type="text/javascript">
+
+	$(function (){
+		App.init();
+  		$("#visibleTemplateModule_form").myValidate();
+  		
+  		//https://github.com/jakiestfu/Behave.js
+  		$(".diy_textarea").each(function (){
+  			new Behave({
+				textarea: 		this,
+				replaceTab: 	true,
+			    softTabs: 		true,
+			    tabSize: 		4,
+			    autoOpen: 		true,
+			    overwrite: 		true,
+			    autoStrip: 		true,
+			    autoIndent: 	true,
+			    fence: false
+			});
+  		});
+		/* new Behave({
+			textarea: 		$(".diy_textarea")[0],
+			replaceTab: 	true,
+		    softTabs: 		true,
+		    tabSize: 		4,
+		    autoOpen: 		true,
+		    overwrite: 		true,
+		    autoStrip: 		true,
+		    autoIndent: 	true,
+		    fence: false
+		}); */
+	
+		//http://www.jq22.com/jquery-info6677
+		$(".diy_textarea").setTextareaCount({
+			width: "30px",
+			bgColor: "#eee",
+			color: "#777",
+			display: "inline-block"
+		});
+	});
+	
+</script>

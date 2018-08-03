@@ -1,0 +1,100 @@
+
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal"
+		aria-hidden="true"></button>
+	<h4 class="modal-title">内容页广告</h4>
+</div>
+<div class="modal-body">
+	<!-- BEGIN FORM-->
+	<form id="form_sample_2" class="form-horizontal">
+		<input type="hidden" id="id" name="id"
+			value="${advertisemenContent.id?if_exists}" />
+		<div class="alert alert-error hide">
+			<button class="close" data-dismiss="alert"></button>
+			有未填写项或错误项. 请检查后再提交.
+		</div>
+		<div class="alert alert-success hide">
+			<button class="close" data-dismiss="alert"></button>
+			表单验证成功!
+		</div>
+		<div class="control-group">
+			<label class="control-label">是否是内置广告</label>
+			<div class="controls">
+				<label class="radio"><input type="radio" id="inside"
+					name="isInside" checked="checked"<#if
+					advertisemenContent.isInside==null || advertisemenContent.isInside
+					== 1 >checked</#if> value="1"/>内置 </label> <label class="radio"><input
+					type="radio" id="notInside" name="isInside"<#if
+					advertisemenContent.isInside == 0 >checked</#if> value="0"/>第三方广告代码</label>
+			</div>
+		</div>
+		<div class="control-group inside">
+			<label class="control-label">广告图片地址</label>
+			<div class="controls">
+				<input type="text" id="imgUrl" name="imgUrl"
+					class="span3 form-control"
+					value="${advertisemenContent.imgUrl?if_exists}" />
+			</div>
+		</div>
+		<div class="control-group inside">
+			<label class="control-label inside">广告连接地址</label>
+			<div class="controls">
+				<input type="text" id="connectUrl" name="connectUrl"
+					class="span3 form-control"
+					value="${advertisemenContent.connectUrl?if_exists}" />
+			</div>
+		</div>
+		<div class="control-group notInside">
+			<label class="control-label notInside">广告广告代码</label>
+			<div class="controls">
+				<textarea rows="5" cols="50" id="advertisementCode"
+					name="advertisementCode" class="span3 form-control">${advertisemenContent.advertisementCode?if_exists}</textarea>
+			</div>
+		</div>
+	</form>
+</div>
+<div class="modal-footer">
+	<input type="button" class="btn btn-primary" id="submitform" value="提交">
+	<input type="button" class="btn" value="关闭" data-dismiss="modal">
+</div>
+<script>
+	//校验
+	jQuery(document).ready(function() {
+		App.init();
+		$("#form_sample_2").myValidate();
+	});
+	$(document).ready(
+			function() {
+				$('.notInside').hide();
+				$("#inside").click(function() {
+					$('.notInside').hide();
+					$('.inside').show();
+				});
+				$("#notInside").click(function() {
+					$('.inside').hide();
+					$('.notInside').show();
+				});
+				var check = $("#inside").attr('checked');
+				if (check == 'checked') {
+					$('.notInside').hide();
+					$('.inside').show();
+				} else {
+					$('.notInside').show();
+					$('.inside').hide();
+				}
+
+				$("#submitform").click(
+						function() {
+							var check = $("#inside").attr('checked');
+							if (check == 'checked') {
+								$('.notInside textarea').val('');
+							} else {
+								$('.inside input').val('');
+								$('.notInside input').val('');
+							}
+							formSubmitModel(
+									'advertisemenContentController.do?save',
+									'form_sample_2');
+						});
+			});
+</script>
